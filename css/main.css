@@ -1,0 +1,66 @@
+/* General */
+
+body {
+    background-color: #202020;
+    text-align: center;
+    font-family: "Ubuntu Mono";
+    color: #e0e0e0;
+}
+
+a, a:visited, a:hover, a:active {
+    color: inherit;
+}
+
+h1, h2, h3 {
+    letter-spacing: 1px;
+    color: #f5ea8e;
+}
+
+/* Project containers */
+
+.project-container {
+    display: inline-block;
+    border: 2px solid #181818;
+    border-radius: 10px;
+    background-color: #181818;
+    padding: 3px 10px;
+    width: 500px;
+    transition-duration: 0.4s;
+}
+
+.project-container:hover {
+    background-color: #303030;
+}
+
+.project-container > p {
+    text-align: left;
+}
+
+.project-container > img {
+    float: right;
+    width: 64px;
+}
+
+.project-container > * {
+    text-decoration: none;
+    margin: 5px;
+}
+
+.project-links {
+    display: inline-block;
+}
+
+.project-links a {
+    transition-duration: 0.6s;
+}
+
+.project-links a:hover {
+    /* Weird hack doctors don't want you to know */
+    -webkit-filter: sepia(100%) saturate(200%);
+    filter: sepia(100%) saturate(200%);
+}
+
+.project-links img {
+    width: 20px;
+    margin: 0 7px;
+}
