@@ -25,48 +25,117 @@
     <meta name="theme-color" content="#ebafcc">
 </head>
 <body>
-    <h1>Hi :)</h1>
-    <p>My Projects:</p>
+    <h1 id="greeting">Hi :)</h1>
 
-    <div class="project-container">
-        <img src="static/bh.png">
-        <h3>BleachHack</h3>
-        <p>BleachHack is a utility mod for Minecraft.</p>
-        <div class="project-links">
-            <a href="https://bleachhack.org/"><img src="static/home.png"></a>
-            <a href="https://github.com/BleachDrinker420/BleachHack"><img src="static/github.png"></a>
-            <a href="https://bleachhack.org/discord"><img src="static/discord.png"></a>
+    <div class="main">
+        <nav class="main-nav">
+            <a id="about-nav" onclick="showContainer('about');">About Me</a>
+            <a id="projects-nav" onclick="showContainer('projects');">Projects</a>
+            <a id="contact-nav" onclick="showContainer('contact');">Contact</a>
+        </nav>
+
+        <div id="about">
+            <img src="/static/pfp.gif" alt="[Profile Picture]">
+            <!-- About Me -->
+            <p>Hi! I'm <span style="color: #ffe0fe">Bleach</span> and i'm a self-taught developer/programmer<br>
+                that has been writing code as a hobby for over 4 years.</p>
+            <p>I'm a hard worker, self-motivated, and a dedicated person.<br>
+                I like to work on projects that are fun and interesting,<br>
+                and I'm always looking for new challenges to solve.</p>
+            <div class="links">
+                <a class="active-link" href="https://twitter.com/bleach_dev"><img src="static/twitter.png"></a>
+                <a class="active-link" href="https://www.youtube.com/channel/UCng9PWlG69Z07RydcbwzQRg"><img src="static/youtube.png"></a>
+                <a class="active-link" href="https://github.com/BleachDrinker420"><img src="static/github.png"></a>
+            </div>
+        </div>
+
+        <div id="projects">
+            <div class="project">
+                <img src="static/bh.png">
+                <h3>BleachHack</h3>
+                <p>BleachHack is a utility mod for Minecraft.</p>
+                <div class="links">
+                    <a class="active-link" href="https://bleachhack.org/"><img src="static/home.png"></a>
+                    <a class="active-link" href="https://github.com/BleachDrinker420/BleachHack"><img src="static/github.png"></a>
+                    <a class="active-link" href="https://bleachhack.org/discord"><img src="static/discord.png"></a>
+                </div>
+            </div>
+
+            <div style="height: 20px;"></div>
+
+            <div class="project">
+                <img src="static/oneblock.png">
+                <h3>One Block At A Time</h3>
+                <p>The 22w13a Minecraft April fools update ported to other versions.</p>
+
+                <div class="links">
+                    <a class="active-link" href="https://modrinth.com/mod/oneblock"><img src="static/home.png"></a>
+                    <a class="active-link" href="https://github.com/BleachDrinker420/oneblock"><img src="static/github.png"></a>
+                    <a class="inactive-link"><img src="static/discord.png"></a>
+                </div>
+            </div>
+
+            <div style="height: 20px;"></div>
+
+            <div class="project">
+                <img src="static/mcosm.png">
+                <h3>McOSM</h3>
+                <p>a Mod that imports OpenStreetMap data into Minecraft.</p>
+
+                <div class="links">
+                    <a class="inactive-link"><img src="static/home.png"></a>
+                    <a class="active-link" href="https://github.com/BleachDrinker420/mcosm"><img src="static/github.png"></a>
+                    <a class="inactive-link"><img src="static/discord.png"></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact">
+            <p>If you have any questions, feel free to contact me<br>
+                via Discord (preferably) or Email.</p>
+            <p>Discord: <span style="color: #ffe0fe">Bleach#0136</span></p>
+            <p>Email: <span style="color: #ffe0fe">me@bleach.dev</span></p>
         </div>
     </div>
 
-    <div style="height: 20px;"></div>
+    <script>
+        const greetings = [ "Hi", "Bonjour", "Hola", "Ciao", "γεια", "Zdravo", "Hallo", "Salut", "Hei", "Cześć", "Привет", "你好", "Sveiki", "Merhaba", "Ahoj", "やあ", "سلام", "Xin chào" ];
+        const containers = [ "about", "projects", "contact" ];
 
-    <div class="project-container">
-        <img src="static/oneblock.png">
-        <h3>One Block At A Time</h3>
-        <p>The 22w13a Minecraft April fools update to other versions.</p>
+        let currentGreeting = 0;
+        let currentTick = 0;
 
-        <div class="project-links">
-            <a href="https://modrinth.com/mod/oneblock"><img src="static/home.png"></a>
-            <a href="https://github.com/BleachDrinker420/oneblock"><img src="static/github.png"></a>
-            <img src="static/discord2.png">
-        </div>
-    </div>
+        // Shows the container with the given id and gives the navbar link with the given id an underline
+        function showContainer(container) {
+            for (let i = 0; i < containers.length; i++) {
+                if (containers[i] === container) {
+                    document.getElementById(containers[i]).style.display = "block";
+                    document.getElementById(container + "-nav").style.textDecoration = "underline";
+                } else {
+                    document.getElementById(containers[i]).style.display = "none";
+                    document.getElementById(containers[i] + "-nav").style.textDecoration = "none";
+                }
+            }
+        }
 
-    <div style="height: 20px;"></div>
+        showContainer("about");
 
-    <div class="project-container">
-        <img src="static/mcosm.png">
-        <h3>McOSM</h3>
-        <p>a Mod that imports OpenStreetMap data into Minecraft.</p>
+        setInterval(function() {
+            let greeting = document.getElementById("greeting").innerHTML;
 
-        <div class="project-links">
-            <img src="static/home2.png">
-            <a href="https://github.com/BleachDrinker420/mcosm"><img src="static/github.png"></a>
-            <img src="static/discord2.png">
-        </div>
-    </div>
-
-    <p style="position: absolute; bottom: 2px; left: 4px; margin: 0;">Work in progress</p>
+            if (currentTick === 12) {
+                if (greeting.length === 3) {
+                    currentGreeting = (currentGreeting + 1) % greetings.length;
+                    currentTick = 0;
+                } else {
+                    document.getElementById("greeting").innerHTML = greeting.substring(0, greeting.length - 4) + " :)";
+                }
+            } else if (greeting.length - 3 < greetings[currentGreeting].length) {
+                document.getElementById("greeting").innerHTML = greetings[currentGreeting].substring(0, greeting.length - 2) + " :)";
+            } else {
+                currentTick++;
+            }
+        }, 150);
+    </script>
 </body>
 </html>
