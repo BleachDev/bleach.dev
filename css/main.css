@@ -77,17 +77,19 @@ h1, h2, h3 {
 }
 
 .active-link {
+    filter: grayscale(1) brightness(125%);
+    -webkit-filer: grayscale(1) brightness(125%);
     transition-duration: 0.6s;
 }
 
 .active-link:hover {
-    -webkit-filter: saturate(6000%);
-    filter: saturate(6000%);
+    -webkit-filter: none;
+    filter: none;
 }
 
 .inactive-link {
-    -webkit-filter: brightness(30%) saturate(0);
-    filter: brightness(30%) saturate(0);
+    filter: grayscale(1) brightness(35%);
+    -webkit-filer: grayscale(1) brightness(35%);
 }
 
 .active-link img, .inactive-link img {
