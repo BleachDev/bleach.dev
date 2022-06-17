@@ -12,6 +12,15 @@ h1, h2, h3 {
     color: #f5ea8e;
 }
 
+h3 {
+    margin: 17px;
+}
+
+hr {
+    color: #373737;
+    margin: 15px 10px;
+}
+
 .main {
     display: inline-block;
     width: 90%;
@@ -93,6 +102,12 @@ h1, h2, h3 {
 }
 
 .active-link img, .inactive-link img {
-    width: 20px;
+    width: 21px;
     margin: 0 7px;
+}
+
+.default-link img {
+    width: 21px;
+    height: 21px;
+    margin: 0 1px;
 }
