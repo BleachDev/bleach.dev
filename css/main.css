@@ -76,33 +76,42 @@ h3 {
 
 /* Links */
 
-.links {
+.links-wide, .links-compact {
     display: inline-block;
 }
 
-.active-link {
+.links-wide img {
+    width: 21px;
+    margin: 0 7px;
+}
+
+.links-compact img {
+    width: 21px;
+    height: 21px;
+    margin: 0 1px;
+}
+
+.color-link {
     filter: grayscale(1) brightness(125%);
-    -webkit-filer: grayscale(1) brightness(125%);
+    -webkit-filter: grayscale(1) brightness(125%);
     transition-duration: 0.6s;
 }
 
-.active-link:hover {
+.color-link:hover {
     -webkit-filter: none;
     filter: none;
 }
 
 .inactive-link {
     filter: grayscale(1) brightness(35%);
-    -webkit-filer: grayscale(1) brightness(35%);
+    -webkit-filter: grayscale(1) brightness(35%);
 }
 
-.active-link img, .inactive-link img {
-    width: 21px;
-    margin: 0 7px;
+.glow-link {
+    transition-duration: 0.4s;
 }
 
-.default-link img {
-    width: 21px;
-    height: 21px;
-    margin: 0 1px;
+.glow-link:hover {
+    filter: drop-shadow(0 0 2px #fff);
+    -webkit-filter: drop-shadow(0 0 2px #fff);
 }
