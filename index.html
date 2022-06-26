@@ -7,6 +7,7 @@
     <title>Bleach Development</title>
 
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/index.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +28,7 @@
 <body>
     <h1 id="greeting">Hi :)</h1>
 
-    <div class="main">
+    <div class="box" style="max-width: 500px;">
         <nav class="main-nav">
             <a id="about-nav" onclick="showContainer('about');">About Me</a>
             <a id="projects-nav" onclick="showContainer('projects');">Projects</a>
@@ -84,7 +85,7 @@
         </div>
 
         <div id="projects">
-            <div class="project">
+            <div class="box project-box">
                 <img src="static/bh.png">
                 <h3>BleachHack</h3>
                 <p>BleachHack is a utility mod for Minecraft.</p>
@@ -97,7 +98,7 @@
 
             <div style="height: 20px;"></div>
 
-            <div class="project">
+            <div class="box project-box">
                 <img src="static/oneblock.png">
                 <h3>One Block At A Time</h3>
                 <p>The 22w13a Minecraft April fools update ported to other versions.</p>
@@ -111,7 +112,7 @@
 
             <div style="height: 20px;"></div>
 
-            <div class="project">
+            <div class="box project-box">
                 <img src="static/mcosm.png">
                 <h3>McOSM</h3>
                 <p>a Mod that imports OpenStreetMap data into Minecraft.</p>

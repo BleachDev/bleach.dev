@@ -1,0 +1,38 @@
+/* Navbar */
+
+.main-nav {
+    padding-bottom: 15px;
+    padding-top: 7px;
+}
+
+.main-nav > a {
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 18px;
+}
+
+/* Project containers */
+
+.project-box {
+    border: 2px solid #121212;
+    padding: 3px 10px;
+    transition-duration: 0.4s;
+}
+
+.project-box:hover {
+    background-color: #303030;
+}
+
+.project-box > p {
+    text-align: left;
+}
+
+.project-box > img {
+    float: right;
+    width: 64px;
+    margin-left: 10px;
+}
+
+.project-box > * {
+    margin: 5px;
+}

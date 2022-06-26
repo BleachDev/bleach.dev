@@ -16,62 +16,21 @@ h3 {
     margin: 17px;
 }
 
-.main {
-    display: inline-block;
-    width: 90%;
-    max-width: 500px;
-    background-color: #191919;
-    border: 2px solid #191919;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-.main-nav {
-    padding-bottom: 15px;
-    padding-top: 7px;
-}
-
-.main-nav > a {
-    padding-left: 12px;
-    padding-right: 12px;
-    font-size: 18px;
+a {
     cursor: pointer;
     transition-duration: 0.4s;
 }
 
-.main-nav > a:hover {
+a:hover {
     color: #77c8d9;
 }
 
-/* Project containers */
-
-.project {
+.box {
     display: inline-block;
     width: 90%;
-    background-color: #141414;
-    border: 2px solid #141414;
+    background-color: #0000003d;
     border-radius: 10px;
-    padding: 3px 10px;
-    transition-duration: 0.4s;
-}
-
-.project:hover {
-    background-color: #303030;
-}
-
-.project > p {
-    text-align: left;
-}
-
-.project > img {
-    float: right;
-    width: 64px;
-    margin-left: 10px;
-}
-
-.project > * {
-    text-decoration: none;
-    margin: 5px;
+    padding: 7px;
 }
 
 /* Links */
