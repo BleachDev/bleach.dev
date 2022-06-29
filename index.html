@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
 
-    <link rel="shortcut icon" type="image/x-icon" href="/static/icon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="static/icon.ico">
     <title>Bleach Development</title>
 
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/index.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,6 @@
     <meta property="og:url" content="https://bleach.dev/">
     <meta property="og:image" content="https://bleach.dev/static/icon.png">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="en_US">
     <meta property="og:description" content="I'm Bleach and this is my website.">
     <meta name="theme-color" content="#ebafcc">
 </head>
@@ -29,14 +28,14 @@
     <h1 id="greeting">Hi :)</h1>
 
     <div class="box" style="max-width: 500px;">
-        <nav class="main-nav">
+        <nav>
             <a id="about-nav" onclick="showContainer('about');">About Me</a>
             <a id="projects-nav" onclick="showContainer('projects');">Projects</a>
             <a id="contact-nav" onclick="showContainer('contact');">Contact</a>
         </nav>
 
         <div id="about">
-            <img src="/static/typing.gif" height="110" alt="[Profile Picture]">
+            <img src="static/img/typing.gif" height="110" alt="[Profile Picture]">
             <!-- About Me -->
             <p>Hi! I'm <span style="color: #ffe0fe">Bleach</span> and i'm a self-taught developer/programmer<br>
                 that has been writing code as a hobby for over 4 years.</p>
@@ -46,81 +45,94 @@
 
             <h3>Things i use</h3>
             <div class="links-compact">
-                <a class="glow-link" href="https://www.w3.org/TR/html5/" title="HTML"><img src="/static/logos/html-5.svg" alt="HTML"></a>
-                <a class="glow-link" href="https://www.w3.org/TR/CSS/" title="CSS"><img src="/static/logos/css-3.svg" alt="CSS"></a>
-                <a class="glow-link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" title="JavaScript"><img src="/static/logos/javascript.svg" alt="JavaScript"></a>
-                <a class="glow-link" href="https://www.jetbrains.com/webstorm/" title="Webstorm"><img src="/static/logos/webstorm.svg" alt="Webstorm"></a>
+                <a class="glow-link" href="https://www.w3.org/TR/html5/" title="HTML"><img src="static/img/logos/html-5.svg" alt="HTML"></a>
+                <a class="glow-link" href="https://www.w3.org/TR/CSS/" title="CSS"><img src="static/img/logos/css-3.svg" alt="CSS"></a>
+                <a class="glow-link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" title="JavaScript"><img src="static/img/logos/javascript.svg" alt="JavaScript"></a>
+                <a class="glow-link" href="https://www.jetbrains.com/webstorm/" title="Webstorm"><img src="static/img/logos/webstorm.svg" alt="Webstorm"></a>
 
-                <a class="glow-link" href="https://www.java.com/" title="Java"><img src="/static/logos/java.svg" alt="Java"></a>
-                <a class="glow-link" href="https://kotlinlang.org/" title="Kotlin"><img src="/static/logos/kotlin.svg" alt="Kotlin"></a>
-                <a class="glow-link" href="https://gradle.org/" title="Gradle"><img src="/static/logos/gradle.svg" alt="Gradle"></a>
-                <a class="glow-link" href="https://maven.apache.org/" title="Maven"><img src="/static/logos/apache.svg" alt="Maven"></a>
-                <a class="glow-link" href="https://eclipse.org/" title="Eclipse"><img src="/static/logos/eclipse.svg" alt="Eclipse"></a>
-                <a class="glow-link" href="https://www.jetbrains.com/idea" title="IntelliJ"><img src="/static/logos/intellij-idea.svg" alt="IntelliJ"></a>
-                <a class="glow-link" href="https://www.opengl.org/" title="OpenGL"><img src="/static/logos/opengl.svg" alt="OpenGL"></a>
-                <a class="glow-link" href="https://www.python.org/" title="Python"><img src="/static/logos/python.svg" alt="Python"></a>
+                <a class="glow-link" href="https://www.java.com/" title="Java"><img src="static/img/logos/java.svg" alt="Java"></a>
+                <a class="glow-link" href="https://kotlinlang.org/" title="Kotlin"><img src="static/img/logos/kotlin.svg" alt="Kotlin"></a>
+                <a class="glow-link" href="https://gradle.org/" title="Gradle"><img src="static/img/logos/gradle.svg" alt="Gradle"></a>
+                <a class="glow-link" href="https://maven.apache.org/" title="Maven"><img src="static/img/logos/apache.svg" alt="Maven"></a>
+                <a class="glow-link" href="https://eclipse.org/" title="Eclipse"><img src="static/img/logos/eclipse.svg" alt="Eclipse"></a>
+                <a class="glow-link" href="https://www.jetbrains.com/idea" title="IntelliJ"><img src="static/img/logos/intellij-idea.svg" alt="IntelliJ"></a>
+                <a class="glow-link" href="https://www.opengl.org/" title="OpenGL"><img src="static/img/logos/opengl.svg" alt="OpenGL"></a>
+                <a class="glow-link" href="https://www.python.org/" title="Python"><img src="static/img/logos/python.svg" alt="Python"></a>
                 <br>
-                <a class="glow-link" href="https://visualstudio.microsoft.com/vs/" title="Visual Studio"><img src="/static/logos/visual-studio.svg" alt="Visual Studio"></a>
-                <a class="glow-link" href="https://csharp.net/" title="C#"><img src="/static/logos/c-sharp.svg" alt="C#"></a>
+                <a class="glow-link" href="https://visualstudio.microsoft.com/vs/" title="Visual Studio"><img src="static/img/logos/visual-studio.svg" alt="Visual Studio"></a>
+                <a class="glow-link" href="https://csharp.net/" title="C#"><img src="static/img/logos/c-sharp.svg" alt="C#"></a>
 
-                <a class="glow-link" href="https://git-scm.com/" title="Git"><img src="/static/logos/git.svg" alt="Git"></a>
-                <a class="glow-link" href="https://github.com/" title="GitHub"><img src="/static/logos/github-mono.svg" alt="GitHub"></a>
+                <a class="glow-link" href="https://git-scm.com/" title="Git"><img src="static/img/logos/git.svg" alt="Git"></a>
+                <a class="glow-link" href="https://github.com/" title="GitHub"><img src="static/img/logos/github-mono.svg" alt="GitHub"></a>
 
-                <a class="glow-link" href="https://aws.amazon.com/" title="AWS"><img src="/static/logos/aws.svg" alt="AWS"></a>
-                <a class="glow-link" href="https://aws.amazon.com/ec2/" title="AWS EC2"><img src="/static/logos/aws-ec2.svg" alt="EC2"></a>
-                <a class="glow-link" href="https://aws.amazon.com/s3/" title="AWS S3"><img src="/static/logos/aws-s3.svg" alt="S3"></a>
+                <a class="glow-link" href="https://aws.amazon.com/" title="AWS"><img src="static/img/logos/aws.svg" alt="AWS"></a>
+                <a class="glow-link" href="https://aws.amazon.com/ec2/" title="AWS EC2"><img src="static/img/logos/aws-ec2.svg" alt="EC2"></a>
+                <a class="glow-link" href="https://aws.amazon.com/s3/" title="AWS S3"><img src="static/img/logos/aws-s3.svg" alt="S3"></a>
 
-                <a class="glow-link" href="https://www.adobe.com/products/photoshop.html" title="Photoshop"><img src="/static/logos/adobe-photoshop.svg" alt="Photoshop"></a>
-                <a class="glow-link" href="https://www.adobe.com/products/audition.html" title="Audition"><img src="/static/logos/adobe-audition.svg" alt="Audition"></a>
-                <a class="glow-link" href="https://www.adobe.com/products/premiere.html" title="Premiere"><img src="/static/logos/adobe-premiere_pro.svg" alt="Premiere"></a>
+                <a class="glow-link" href="https://www.adobe.com/products/photoshop.html" title="Photoshop"><img src="static/img/logos/adobe-photoshop.svg" alt="Photoshop"></a>
+                <a class="glow-link" href="https://www.adobe.com/products/audition.html" title="Audition"><img src="static/img/logos/adobe-audition.svg" alt="Audition"></a>
+                <a class="glow-link" href="https://www.adobe.com/products/premiere.html" title="Premiere"><img src="static/img/logos/adobe-premiere_pro.svg" alt="Premiere"></a>
             </div>
 
-            <div style="height: 1px; background-color: #373737; margin: 15px 10px;"></div>
+            <div class="hr"></div>
 
             <div class="links-wide">
-                <a class="color-link" href="https://twitter.com/bleach_dev"><img src="static/logos/twitter.svg"></a>
-                <a class="color-link" href="https://www.youtube.com/channel/UCng9PWlG69Z07RydcbwzQRg"><img src="static/logos/youtube.svg"></a>
-                <a class="color-link" href="https://github.com/BleachDev"><img src="static/logos/github.svg"></a>
+                <a class="color-link" href="https://twitter.com/bleach_dev"><img src="static/img/logos/twitter.svg"></a>
+                <a class="color-link" href="https://www.youtube.com/channel/UCng9PWlG69Z07RydcbwzQRg"><img src="static/img/logos/youtube.svg"></a>
+                <a class="color-link" href="https://github.com/BleachDev"><img src="static/img/logos/github.svg"></a>
             </div>
         </div>
 
         <div id="projects">
             <div class="box project-box">
-                <img src="static/bh.png">
-                <h3>BleachHack</h3>
-                <p>BleachHack is a utility mod for Minecraft.</p>
+                <img src="static/img/icongen.png">
+                <h3>Icon Generator</h3>
+                <p>Website that generates HTML code from over 1500 SVG icons/logos.</p>
                 <div class="links-wide">
-                    <a class="color-link" href="https://bleachhack.org/"><img src="static/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/BleachHack"><img src="static/logos/github.svg"></a>
-                    <a class="color-link" href="https://bleachhack.org/discord"><img src="static/logos/discord.svg"></a>
+                    <a class="color-link" href="icons.html"><img src="static/img/logos/home.svg"></a>
+                    <a class="color-link" href="https://github.com/BleachDev/bleach.dev/blob/main/icons.html"><img src="static/img/logos/github.svg"></a>
+                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
                 </div>
             </div>
 
             <div style="height: 20px;"></div>
 
             <div class="box project-box">
-                <img src="static/oneblock.png">
+                <img src="static/img/bh.png">
+                <h3>BleachHack</h3>
+                <p>BleachHack is a utility mod for Minecraft.</p>
+                <div class="links-wide">
+                    <a class="color-link" href="https://bleachhack.org/"><img src="static/img/logos/home.svg"></a>
+                    <a class="color-link" href="https://github.com/BleachDev/BleachHack"><img src="static/img/logos/github.svg"></a>
+                    <a class="color-link" href="https://bleachhack.org/discord"><img src="static/img/logos/discord.svg"></a>
+                </div>
+            </div>
+
+            <div style="height: 20px;"></div>
+
+            <div class="box project-box">
+                <img src="static/img/oneblock.png">
                 <h3>One Block At A Time</h3>
                 <p>The 22w13a Minecraft April fools update ported to other versions.</p>
 
                 <div class="links-wide">
-                    <a class="color-link" href="https://modrinth.com/mod/oneblock"><img src="static/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/oneblock"><img src="static/logos/github.svg"></a>
-                    <a class="inactive-link"><img src="static/logos/discord.svg"></a>
+                    <a class="color-link" href="https://modrinth.com/mod/oneblock"><img src="static/img/logos/home.svg"></a>
+                    <a class="color-link" href="https://github.com/BleachDev/oneblock"><img src="static/img/logos/github.svg"></a>
+                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
                 </div>
             </div>
 
             <div style="height: 20px;"></div>
 
             <div class="box project-box">
-                <img src="static/mcosm.png">
+                <img src="static/img/mcosm.png">
                 <h3>McOSM</h3>
-                <p>a Mod that imports OpenStreetMap data into Minecraft.</p>
+                <p>A Mod that imports OpenStreetMap data into Minecraft.</p>
 
                 <div class="links-wide">
-                    <a class="inactive-link"><img src="static/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/mcosm"><img src="static/logos/github.svg"></a>
-                    <a class="inactive-link"><img src="static/logos/discord.svg"></a>
+                    <a class="inactive-link"><img src="static/img/logos/home.svg"></a>
+                    <a class="color-link" href="https://github.com/BleachDev/mcosm"><img src="static/img/logos/github.svg"></a>
+                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
                 </div>
             </div>
         </div>
@@ -143,13 +155,9 @@
         // Shows the container with the given id and gives the navbar link with the given id an underline
         function showContainer(container) {
             for (let i = 0; i < containers.length; i++) {
-                if (containers[i] === container) {
-                    document.getElementById(containers[i]).style.display = "block";
-                    document.getElementById(container + "-nav").style.textDecoration = "underline";
-                } else {
-                    document.getElementById(containers[i]).style.display = "none";
-                    document.getElementById(containers[i] + "-nav").style.textDecoration = "none";
-                }
+                const sel = containers[i] === container;
+                document.getElementById(containers[i]).style.display = sel ? "block" : "none";
+                document.getElementById(containers[i] + "-nav").style.textDecoration = sel ? "underline" : "none";
             }
         }
 

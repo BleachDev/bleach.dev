@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="shortcut icon" type="image/x-icon" href="static/icon.ico">
+    <title>Icon Generator</title>
+
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/icons.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+
+    <script src="static/js/jszip.min.js"></script>
+    <script src="static/js/filesaver.min.js"></script>
+
+    <meta name="description" content="Markdown/HTML/Readme Icon Generator.">
+    <meta name="keywords" content="Bleach, BleachHack, Bleach Development, bleach.dev, Icon Generator, Readme Icons">
+
+    <meta property="og:site_name" content="bleach.dev">
+    <meta property="og:title" content="Icon Generator">
+    <meta property="og:url" content="https://bleach.dev/icons.html">
+    <meta property="og:image" content="https://bleach.dev/static/icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Markdown/HTML/Readme Icon Generator.">
+    <meta name="theme-color" content="#ebafcc">
+</head>
+<body>
+    <h1>Icon Generator</h1>
+
+    <div class="box" style="max-width: 500px;">
+        <p class="note">Available Icons:</p>
+        <input id="icon-search" type="text" placeholder="Search" autofocus>
+        <div id="icon-picker" class="box icon-picker"></div>
+
+        <div class="hr"></div>
+
+        <p class="note">Selected Icons:</p>
+        <div id="icon-picker2" class="box icon-picker"></div>
+
+        <div class="hr"></div>
+
+        <p class="note">Format:</p>
+
+        <input type="radio" name="format" value="1" id="format-markhtml" onclick="enableOptions([ 'option-size' ]); updatePreview();" title="Markdown Supported HTML Elements" checked>
+        <label for="format-markhtml">Markdown</label>
+        <input type="radio" name="format" value="2" id="format-html" onclick="enableOptions([ 'option-size', 'option-margin-h', 'option-margin-v', 'option-embed' ]); updatePreview();" title="HTML Code">
+        <label for="format-html">HTML</label>
+        <input type="radio" name="format" value="3" id="format-json" onclick="enableOptions([ 'option-embed', 'option-minimize' ]); updatePreview();" title="JSON File with logo details">
+        <label for="format-json">JSON</label>
+
+        <p class="note">Settings:</p>
+        <div>
+            <label for="option-size" title="The pixel size of the icons.">Image Size:</label>
+            <input type="number" id="option-size" min="1" value="21" onclick="updatePreview();">
+        </div>
+        <div hidden>
+            <label for="option-margin-h" title="How much horizontal spacing there should be between the icons.">Horizontal Spacing:</label>
+            <input type="number" id="option-margin-h" min="0" value="3" onclick="updatePreview();">
+        </div>
+        <div hidden>
+            <label for="option-margin-v" title="How much vertical spacing there should be between the icons.">Vertical Spacing:</label>
+            <input type="number" id="option-margin-v" min="0" value="3" onclick="updatePreview();">
+        </div>
+        <div hidden>
+            <label for="option-embed" title="Whether to embed the icons in the code.">Embed SVGs:</label>
+            <input type="checkbox" id="option-embed" onclick="updatePreview();">
+        </div>
+        <div hidden>
+            <label for="option-minimize" title="Whether to minimize the json output.">Minimize:</label>
+            <input type="checkbox" id="option-minimize" onclick="updatePreview();" checked>
+        </div>
+
+        <div class="hr"></div>
+
+        <p class="note">Preview:</p>
+        <div id="output" class="box" style="overflow: auto; padding: 10px 8px;"></div>
+        <button onclick="download();">Download</button>
+    </div>
+
+    <div style="height: 3px;"></div>
+
+    <div style="display: inline-block; width: 90%; max-width: 540px;">
+        <p class="note">All icons are from Tom Chen's <a href="https://github.com/get-icon/geticon">geticon</a> project.</p>
+    </div>
+
+    <script>
+        const OPTIONS = [ "option-size", "option-margin-h", "option-margin-v", "option-embed", "option-minimize" ];
+        const iconsA = [];
+        const iconsS = [];
+
+        // Download initial icons
+        fetch('static/icons-full.json')
+            .then(res => res.json())
+            .then(data => {
+                let html = document.getElementById('icon-picker');
+                for (const icon of data) {
+                    for (let f = 0; f < icon.data.length; f++) {
+                        const iconClone = JSON.parse(JSON.stringify(icon));
+                        iconClone.id = "_icon_" + icon.id + f;
+                        iconClone.data = icon.data[f];
+
+                        html.insertAdjacentHTML('beforeend',
+                            `<a id="${iconClone.id}" class="glow-link" onclick="moveIcon('${iconClone.id}'); updatePreview();" title="${iconClone.name}">${iconClone.data}</a>`);
+                        iconsA.push(iconClone);
+                    }
+                }
+            });
+
+        function moveIcon(iconId) {
+            // Swap the icon array.
+            const indexA = iconsA.findIndex(icon => icon.id === iconId);
+            if (indexA !== -1) {
+                iconsS.push(iconsA.splice(indexA, 1)[0]);
+            } else {
+                const indexS = iconsS.findIndex(icon => icon.id === iconId);
+                iconsA.push(iconsS.splice(indexS, 1)[0]);
+            }
+
+            // Swap the icon element.
+            const element = document.getElementById(iconId);
+            document.getElementById(element.parentElement.id === "icon-picker" ? "icon-picker2" : "icon-picker").appendChild(element);
+        }
+
+        // Filter icon picker results
+        document.getElementById("icon-search").addEventListener("input", function() {
+            let search = this.value.toLowerCase().replace(" ", "").replace("_", "").replace("-", "");
+            let iconElements = document.getElementById("icon-picker").children;
+
+            for (const iconElement of iconElements) {
+                iconElement.style.display = iconElement.id.replace(" ", "").replace("_", "").toLowerCase().includes(search) ? "" : "none";
+            }
+        });
+
+        function updatePreview() {
+            const format = document.querySelector('input[name="format"]:checked').value;
+            const embed = getOptionOrDefault('option-embed', false);
+
+            if (format !== "3") {
+                const size = getOptionOrDefault('option-size', 21);
+                const marginH = getOptionOrDefault('option-margin-h', 3);
+                const marginV = getOptionOrDefault('option-margin-v', 3);
+
+                const html = document.getElementById('output');
+                html.innerHTML = "";
+                for (const icon of iconsS) {
+                    const inner = insertStyle(icon.data, `width: ${size}px; height: ${size}px; margin: ${marginV}px ${marginH}px;`);
+                    html.insertAdjacentHTML('beforeend', `<a id="${icon.id}" class="glow-link" href="${icon.url}" title="${icon.name}">${inner}</a>`);
+                }
+            } else {
+                const jsonClone = JSON.parse(JSON.stringify(iconsS));
+                if (!embed) {
+                    for (const icon of jsonClone)
+                        icon.data = icon.id + ".svg";
+                }
+
+                const ejson = JSON.stringify(jsonClone, null, getOptionOrDefault('option-minimize', undefined) ? null : 2)
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;");
+                document.getElementById('output').innerHTML = `<pre style="text-align: left; margin: 5px 0;"><code>${ejson}</code></pre>`;
+            }
+        }
+
+        function getOptionOrDefault(option, defaultValue) {
+            const element = document.getElementById(option);
+            return element.parentElement.hidden ? defaultValue : (element.type === "checkbox" ? element.checked : element.value);
+        }
+
+        // Enable the selected options and make the rest hidden.
+        function enableOptions(options) {
+            for (const option of OPTIONS)
+                document.getElementById(option).parentElement.hidden = !options.includes(option);
+        }
+
+        function download() {
+            const format = document.querySelector('input[name="format"]:checked').value;
+            const size = getOptionOrDefault('option-size', 21);
+            const embed = getOptionOrDefault('option-embed', false);
+
+            let zip = new JSZip();
+            let output = "";
+            switch (format) {
+                case "1":
+                    for (const icon of iconsS) {
+                        output += `<a href="${icon.url}" title="${icon.name}"><img src="${icon.id}.svg" alt="${icon.name}" width="${size}" height="${size}"></a>\n`;
+                    }
+
+                    zip.file("icons.html", output);
+                    break;
+                case "2":
+                    const marginH = getOptionOrDefault('option-margin-h', 3);
+                    const marginV = getOptionOrDefault('option-margin-v', 3);
+
+                    for (const icon of iconsS) {
+                        const inner = embed
+                            ? insertStyle(icon.data, `width: ${size}px; height: ${size}px; margin: ${marginV}px ${marginH}px;`)
+                            : `<img src="${icon.id}.svg" alt="${icon.name}" width="${size}" height="${size}" style="margin: ${marginV}px ${marginH}px;">`;
+                        output += `<a href="${icon.url}" title="${icon.name}">${inner}</a>\n`;
+                    }
+
+                    zip.file("icons.html", output);
+                    break;
+                case "3":
+                    const jsonClone = JSON.parse(JSON.stringify(iconsS));
+                    if (!embed) {
+                        for (const icon of jsonClone)
+                            icon.data = icon.id + ".svg";
+                    }
+
+                    zip.file("icons.json", JSON.stringify(jsonClone, null, getOptionOrDefault('option-minimize', undefined) ? null : 2));
+                    break;
+            }
+
+            if (!embed) {
+                for (const icon of iconsS) {
+                    zip.file(icon.id + ".svg", icon.data);
+                }
+            }
+
+            zip.generateAsync({type: "blob"}).then(function(content) {
+                saveAs(content, "icons.zip");
+            });
+        }
+
+        function insertStyle(string, style) {
+            const spaceI = string.indexOf(" ");
+            return string.substring(0, spaceI) + " style=\"" + style + "\"" + string.substring(spaceI);
+        }
+    </script>
+</body>
+</html>

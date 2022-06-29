@@ -1,0 +1,44 @@
+/* Project containers */
+
+.project-box {
+    border: 2px solid #121212;
+    padding: 3px 10px;
+    transition-duration: 0.4s;
+}
+
+.project-box:hover {
+    background-color: #303030;
+}
+
+.project-box > p {
+    text-align: left;
+}
+
+.project-box > img {
+    float: right;
+    width: 64px;
+    margin-left: 10px;
+}
+
+.project-box > * {
+    margin: 5px;
+}
+
+/* Link containers */
+
+.links-wide, .links-compact {
+    display: inline-block;
+}
+
+.links-wide img, .links-compact img {
+    width: 21px;
+    height: 21px;
+}
+
+.links-wide img {
+    margin: 0 7px;
+}
+
+.links-compact img {
+    margin: 0 1px;
+}
