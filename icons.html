@@ -102,7 +102,6 @@
                         iconClone.id = "_icon_" + icon.id + f;
                         iconClone.data = icon.data[f];
 
-                        console.log(toDataUri(iconClone.data));
                         html.insertAdjacentHTML('beforeend',
                             `<a id="${iconClone.id}" class="glow-link" onclick="moveIcon('${iconClone.id}'); updatePreview();" title="${iconClone.name}"><img src="${toDataUri(iconClone.data)}"></a>`);
                         iconsA.push(iconClone);
