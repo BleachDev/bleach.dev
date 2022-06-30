@@ -102,8 +102,9 @@
                         iconClone.id = "_icon_" + icon.id + f;
                         iconClone.data = icon.data[f];
 
+                        console.log(toDataUri(iconClone.data));
                         html.insertAdjacentHTML('beforeend',
-                            `<a id="${iconClone.id}" class="glow-link" onclick="moveIcon('${iconClone.id}'); updatePreview();" title="${iconClone.name}">${iconClone.data}</a>`);
+                            `<a id="${iconClone.id}" class="glow-link" onclick="moveIcon('${iconClone.id}'); updatePreview();" title="${iconClone.name}"><img src="${toDataUri(iconClone.data)}"></a>`);
                         iconsA.push(iconClone);
                     }
                 }
@@ -146,8 +147,8 @@
                 const html = document.getElementById('output');
                 html.innerHTML = "";
                 for (const icon of iconsS) {
-                    const inner = insertStyle(icon.data, `width: ${size}px; height: ${size}px; margin: ${marginV}px ${marginH}px;`);
-                    html.insertAdjacentHTML('beforeend', `<a id="${icon.id}" class="glow-link" href="${icon.url}" title="${icon.name}">${inner}</a>`);
+                    const style = `style="width: ${size}px; height: ${size}px; margin: ${marginV}px ${marginH}px;"`;
+                    html.insertAdjacentHTML('beforeend', `<a id="${icon.id}" class="glow-link" href="${icon.url}" title="${icon.name}"><img src="${toDataUri(icon.data)}" ${style}></a>`);
                 }
             } else {
                 const jsonClone = JSON.parse(JSON.stringify(iconsS));
@@ -176,41 +177,28 @@
 
         function download() {
             const format = document.querySelector('input[name="format"]:checked').value;
-            const size = getOptionOrDefault('option-size', 21);
             const embed = getOptionOrDefault('option-embed', false);
 
             let zip = new JSZip();
             let output = "";
-            switch (format) {
-                case "1":
-                    for (const icon of iconsS) {
-                        output += `<a href="${icon.url}" title="${icon.name}"><img src="${icon.id}.svg" alt="${icon.name}" width="${size}" height="${size}"></a>\n`;
-                    }
+            if (format !== "3") {
+                const size = getOptionOrDefault('option-size', 21);
+                const style = format === "1" ? "" : `style="margin: ${getOptionOrDefault('option-margin-v', 3)}px ${getOptionOrDefault('option-margin-h', 3)}px;"`;
 
-                    zip.file("icons.html", output);
-                    break;
-                case "2":
-                    const marginH = getOptionOrDefault('option-margin-h', 3);
-                    const marginV = getOptionOrDefault('option-margin-v', 3);
+                for (const icon of iconsS) {
+                    const src = embed ? toDataUri(icon.data) : icon.id + ".svg";
+                    output += `<a href="${icon.url}" title="${icon.name}"><img src="${src}" alt="${icon.name}" width="${size}" height="${size}" ${style}></a>\n`;
+                }
 
-                    for (const icon of iconsS) {
-                        const inner = embed
-                            ? insertStyle(icon.data, `width: ${size}px; height: ${size}px; margin: ${marginV}px ${marginH}px;`)
-                            : `<img src="${icon.id}.svg" alt="${icon.name}" width="${size}" height="${size}" style="margin: ${marginV}px ${marginH}px;">`;
-                        output += `<a href="${icon.url}" title="${icon.name}">${inner}</a>\n`;
-                    }
+                zip.file("icons.html", output);
+            } else {
+                const jsonClone = JSON.parse(JSON.stringify(iconsS));
+                if (!embed) {
+                    for (const icon of jsonClone)
+                        icon.data = icon.id + ".svg";
+                }
 
-                    zip.file("icons.html", output);
-                    break;
-                case "3":
-                    const jsonClone = JSON.parse(JSON.stringify(iconsS));
-                    if (!embed) {
-                        for (const icon of jsonClone)
-                            icon.data = icon.id + ".svg";
-                    }
-
-                    zip.file("icons.json", JSON.stringify(jsonClone, null, getOptionOrDefault('option-minimize', undefined) ? null : 2));
-                    break;
+                zip.file("icons.json", JSON.stringify(jsonClone, null, getOptionOrDefault('option-minimize', undefined) ? null : 2));
             }
 
             if (!embed) {
@@ -224,9 +212,12 @@
             });
         }
 
-        function insertStyle(string, style) {
-            const spaceI = string.indexOf(" ");
-            return string.substring(0, spaceI) + " style=\"" + style + "\"" + string.substring(spaceI);
+        function toDataUri(svgString) {
+            const encoded = encodeURIComponent(svgString
+                .replace(/\s+/g, " ")
+                .replaceAll("> <", "><")
+                .replaceAll("; }", ";}"));
+            return "data:image/svg+xml;charset=utf-8," + encoded;
         }
     </script>
 </body>
