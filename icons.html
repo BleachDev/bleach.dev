@@ -65,12 +65,12 @@
             <input type="number" id="option-margin-v" min="0" value="3" onclick="updatePreview();">
         </div>
         <div hidden>
-            <label for="option-embed" title="Whether to embed the icons in the code.">Embed SVGs:</label>
-            <input type="checkbox" id="option-embed" onclick="updatePreview();">
-        </div>
-        <div hidden>
             <label for="option-minimize" title="Whether to minimize the json output.">Minimize:</label>
             <input type="checkbox" id="option-minimize" onclick="updatePreview();" checked>
+        </div>
+        <div hidden>
+            <label for="option-embed" title="Whether to embed the icons in the code.">Embed SVGs:</label>
+            <input type="checkbox" id="option-embed" onclick="updatePreview();">
         </div>
 
         <div class="hr"></div>
@@ -80,9 +80,15 @@
         <button onclick="download();">Download</button>
     </div>
 
-    <div style="height: 3px;"></div>
+    <div style="height: 5px;"></div>
 
     <div style="display: inline-block; width: 90%; max-width: 540px;">
+        <p class="note">This tool lets you pick from 1500+ SVG icons and generate<br>the HTML code for them to put on your website.</p>
+        <div style="height: 4px;"></div>
+        <p class="note">To get started, click on any icons from the top box to select them,<br>
+                        then change the format and settings to get them to look how you want,<br>
+                        and finally click <span style="color: #fff5a0;">Download</span> to download a zip with all the files you need.</p>
+        <div style="height: 4px;"></div>
         <p class="note">All icons are from Tom Chen's <a href="https://github.com/get-icon/geticon">geticon</a> project.</p>
     </div>
 

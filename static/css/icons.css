@@ -4,6 +4,15 @@
     margin: 4px 1px 4px 23px;
 }
 
+.note-icon {
+    font-size: 20px;
+    float: left;
+    margin: 4px 0 0 4px;
+    width: 0;
+    height: 0;
+    color: #c0c0c0;
+}
+
 /* Icon Picker */
 
 .icon-picker {
