@@ -44,10 +44,10 @@
 
         <p class="note">Format:</p>
 
-        <input type="radio" name="format" value="1" id="format-markhtml" onclick="enableOptions([ 'option-size' ]); updatePreview();" title="Markdown Supported HTML Elements" checked>
-        <label for="format-markhtml">Markdown</label>
-        <input type="radio" name="format" value="2" id="format-html" onclick="enableOptions([ 'option-size', 'option-margin-h', 'option-margin-v', 'option-embed' ]); updatePreview();" title="HTML Code">
+        <input type="radio" name="format" value="2" id="format-html" onclick="enableOptions([ 'option-size', 'option-margin-h', 'option-margin-v', 'option-embed' ]); updatePreview();" title="HTML Code" checked>
         <label for="format-html">HTML</label>
+        <input type="radio" name="format" value="1" id="format-markhtml" onclick="enableOptions([ 'option-size' ]); updatePreview();" title="Markdown Supported HTML Elements">
+        <label for="format-markhtml">Markdown</label>
         <input type="radio" name="format" value="3" id="format-json" onclick="enableOptions([ 'option-embed', 'option-minimize' ]); updatePreview();" title="JSON File with logo details">
         <label for="format-json">JSON</label>
 
@@ -56,11 +56,11 @@
             <label for="option-size" title="The pixel size of the icons.">Image Size:</label>
             <input type="number" id="option-size" min="1" value="21" onclick="updatePreview();">
         </div>
-        <div hidden>
+        <div>
             <label for="option-margin-h" title="How much horizontal spacing there should be between the icons.">Horizontal Spacing:</label>
             <input type="number" id="option-margin-h" min="0" value="3" onclick="updatePreview();">
         </div>
-        <div hidden>
+        <div>
             <label for="option-margin-v" title="How much vertical spacing there should be between the icons.">Vertical Spacing:</label>
             <input type="number" id="option-margin-v" min="0" value="3" onclick="updatePreview();">
         </div>
@@ -68,7 +68,7 @@
             <label for="option-minimize" title="Whether to minimize the json output.">Minimize:</label>
             <input type="checkbox" id="option-minimize" onclick="updatePreview();" checked>
         </div>
-        <div hidden>
+        <div>
             <label for="option-embed" title="Whether to embed the icons in the code.">Embed SVGs:</label>
             <input type="checkbox" id="option-embed" onclick="updatePreview();">
         </div>
@@ -83,7 +83,7 @@
     <div style="height: 5px;"></div>
 
     <div style="display: inline-block; width: 90%; max-width: 540px;">
-        <p class="note">This tool lets you pick from 1500+ SVG icons and generate<br>the HTML code for them to put on your website.</p>
+        <p class="note">This tool lets you pick from 1500+ SVG icons and generate<br>the template code to embed them onto your website.</p>
         <div style="height: 4px;"></div>
         <p class="note">To get started, click on any icons from the top box to select them,<br>
                         then change the format and settings to get them to look how you want,<br>
