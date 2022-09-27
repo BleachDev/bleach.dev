@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #252525;
+    background-color: #2c2e30;
     text-align: center;
     color: #e0e0e0;
     scrollbar-color: #60606090 #10101090;
@@ -40,7 +40,7 @@ a:hover {
 .box {
     display: inline-block;
     width: 90%;
-    background-color: #0000003d;
+    background-color: #00000029;
     border-radius: 10px;
     padding: 7px;
 }
