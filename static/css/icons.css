@@ -4,15 +4,6 @@
     margin: 4px 1px 4px 23px;
 }
 
-.note-icon {
-    font-size: 20px;
-    float: left;
-    margin: 4px 0 0 4px;
-    width: 0;
-    height: 0;
-    color: #c0c0c0;
-}
-
 /* Icon Picker */
 
 .icon-picker {
@@ -34,31 +25,31 @@
 
 button {
     font-size: 18px;
-    background-color: #f0b02040;
-    color: #e0e0e0;
+    background-color: var(--box-color);
+    color: var(--header-color);
     cursor: pointer;
     border: none;
     border-radius: 6px;
     margin: 9px 5px 3px 5px;
     padding: 5px 10px;
-    transition-duration: 0.2s;
+    transition-duration: 0.4s;
 }
 
 button:hover {
-    background-color: #f0b02080;
+    color: var(--link-hover-color);
 }
 
 input, label {
     font-size: 16px;
     border: none;
-    color: #e0e0e0;
+    color: var(--text-color);
     border-radius: 6px;
     margin: 2px 5px 5px;
     padding: 4px 7px;
 }
 
 input {
-    background-color: #0000003d;
+    background-color: var(--box-color);
 }
 
 input[type="text"] {
@@ -73,10 +64,16 @@ input[type="radio"] {
 
 input[type="radio"] + label {
     cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+input[type="radio"]:hover + label {
+    color: var(--link-hover-color);
 }
 
 input[type="radio"]:checked + label {
-    background-color: #f0b02040;
+    background-color: var(--box-color);
+    color: var(--header-color);
 }
 
 input[type="number"] {

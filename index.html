@@ -168,12 +168,11 @@
         let currentGreeting = 0;
         let currentTick = 0;
 
-        // Shows the container with the given id and gives the navbar link with the given id an underline
         function showContainer(container) {
             for (let i = 0; i < containers.length; i++) {
                 const sel = containers[i] === container;
                 document.getElementById(containers[i]).style.display = sel ? "block" : "none";
-                document.getElementById(containers[i] + "-nav").style.textDecoration = sel ? "underline" : "none";
+                document.getElementById(containers[i] + "-nav").style.color = sel ? "var(--header-color)" : null;
             }
         }
 
@@ -194,7 +193,7 @@
             } else {
                 currentTick++;
             }
-        }, 150);
+        }, 155);
     </script>
 </body>
 </html>

@@ -1,20 +1,30 @@
 /* General */
 
+:root {
+    --background-color: #2c2e30;
+    --box-color: #0000002a;
+
+    --text-color: #e0e0e0;
+    --header-color: #f5ea8e;
+    --link-color: #ffb7fa;
+    --link-hover-color: #77c8d9;
+}
+
 * {
     font-family: "Ubuntu Mono", monospace;
 }
 
 body {
-    background-color: #2c2e30;
+    background-color: var(--background-color);
     text-align: center;
-    color: #e0e0e0;
+    color: var(--text-color);
     scrollbar-color: #60606090 #10101090;
     color-scheme: dark;
 }
 
 h1, h2, h3 {
     letter-spacing: 1px;
-    color: #f5ea8e;
+    color: var(--header-color);
 }
 
 h3 {
@@ -24,11 +34,11 @@ h3 {
 a {
     cursor: pointer;
     transition-duration: 0.4s;
-    color: #ffb7fa;
+    color: var(--link-color);
 }
 
 a:hover {
-    color: #77c8d9;
+    color: var(--link-hover-color);
 }
 
 .hr {
@@ -40,7 +50,7 @@ a:hover {
 .box {
     display: inline-block;
     width: 90%;
-    background-color: #00000029;
+    background-color: var(--box-color);
     border-radius: 10px;
     padding: 7px;
 }
