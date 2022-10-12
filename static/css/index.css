@@ -24,6 +24,13 @@
     margin: 5px;
 }
 
+.project-header {
+    margin: -5px 0 10px 25px;
+    text-align: left;
+    font-size: 20px;
+    color: #b0b0b0;
+}
+
 /* Link containers */
 
 .links-wide, .links-compact {

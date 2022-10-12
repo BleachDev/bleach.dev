@@ -1,0 +1,61 @@
+.note {
+    font-size: 14px;
+    text-align: left;
+    margin: 4px 1px 4px 5px;
+}
+
+#result {
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-bottom: 3px;
+    text-align: left;
+}
+
+#result h2, #result h3 {
+    margin: 10px 10px 10px 0;
+}
+
+#result p {
+    margin: 1px;
+}
+
+#loading-text {
+    color: #909090;
+}
+
+#map {
+    height: 600px;
+}
+
+/* Tag tables */
+
+details {
+    margin-bottom: 5px;
+}
+
+details:hover {
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    margin-left: 15px;
+}
+
+th, td {
+    padding: 3px 7px 3px 4px;
+    border: 1px solid var(--text-color);
+    min-width: 55px;
+}
+
+.unchanged-tag {
+    color: #a0a0a0;
+}
+
+.old-tag {
+    background-color: #ff202020;
+}
+
+.new-tag {
+    background-color: #20ff2020;
+}

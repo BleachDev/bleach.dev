@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="shortcut icon" type="image/x-icon" href="static/icon.ico">
+    <title>OpenStreetMap Changeset Visualizer</title>
+
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/osmcv.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+
+    <script src="https://api.facilmap.org/facilmap_ol.js"></script>
+
+    <meta name="description" content="OpenStreetMap Changeset Visualizer/Viewer.">
+    <meta name="keywords" content="Bleach, BleachHack, Bleach Development, bleach.dev, OpenSteetMap, OSM">
+
+    <meta property="og:site_name" content="bleach.dev">
+    <meta property="og:title" content="OSM Changeset Visualizer">
+    <meta property="og:url" content="https://bleach.dev/osmcv.html">
+    <meta property="og:image" content="https://bleach.dev/static/icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="OpenStreetMap Changeset Visualizer/Viewer.">
+    <meta name="theme-color" content="#ebafcc">
+</head>
+<body>
+    <h1>OSM Changeset Visualizer</h1>
+
+    <div class="box" style="max-width: 600px;">
+        <p class="note">Changeset ID:</p>
+        <input id="changeset-id" type="text" placeholder="123456789" autofocus>
+        <button onclick="startWorker();">Lookup</button>
+
+        <div class="hr"></div>
+
+        <div id="result"></div>
+    </div>
+
+    <div style="height: 5px;"></div>
+
+    <div style="display: inline-block; width: 600px;">
+        <p class="note">Original version and FacilMap code adapted from <a href="https://osmhv.openstreetmap.de/">osmhv</a>.</p>
+        <p class="note">All geographic data <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>.</p>
+    </div>
+
+    <script>
+        let worker;
+
+        function startWorker() {
+            if (worker)
+                worker.terminate();
+
+            document.getElementById("result").innerHTML = '<h3 id="loading-text">Loading metadata...</h3>';
+
+            worker = new Worker('static/js/osmcv.js');
+            worker.onmessage = e => {
+                // Super scuffed enum switching to decide what to do
+                switch (e.data[0]) {
+                    case "ADD":
+                        addString(e.data[1]);
+                        break;
+                    case "ADD_MAP":
+                        addMap(e.data[1], e.data[2], e.data[3], e.data[4], e.data[5], e.data[6]);
+                        break;
+                }
+            };
+
+            worker.postMessage([ document.getElementById('changeset-id').value ]);
+        }
+
+        function addString(str) {
+            document.getElementById("loading-text")?.remove();
+            document.getElementById("result").innerHTML += str;
+        }
+
+        function addMap(created, modified, deleted, createdWays, modifiedWays, deletedWays) {
+            document.getElementById("loading-text")?.remove();
+            document.getElementById("result").innerHTML += "<div id='map'></div>"
+
+            const map = new FacilMap.Map("map");
+            map.addAllAvailableLayers();
+            map.setBaseLayer(map.getLayersByName("Mapnik")[0]);
+            map.addControl(new FacilMap.Control.ToolsMenu.Default());
+
+            const styleMapCreated = new OpenLayers.StyleMap({strokeColor: "#44ff44", strokeWidth: 3, strokeOpacity: 0.5});
+            const styleMapModified = new OpenLayers.StyleMap({strokeColor: "#0000ff", strokeWidth: 3, strokeOpacity: 0.3});
+            const styleMapDeleted = new OpenLayers.StyleMap({strokeColor: "#ff0000", strokeWidth: 3, strokeOpacity: 0.5});
+
+            const projection = new OpenLayers.Projection("EPSG:4326");
+            const layerCreated = new OpenLayers.Layer.PointTrack("(Created)", {
+                styleMap: styleMapCreated,
+                projection: projection,
+                zoomableInLayerSwitcher: true,
+                shortName: "created"
+            });
+            const layerDeleted = new OpenLayers.Layer.PointTrack("(Deleted)", {
+                styleMap: styleMapDeleted,
+                projection: projection,
+                zoomableInLayerSwitcher: true,
+                shortName: "deleted"
+            });
+            const layerModified = new OpenLayers.Layer.PointTrack("(Modified)", {
+                styleMap: styleMapModified,
+                projection: projection,
+                zoomableInLayerSwitcher: true,
+                shortName: "modified"
+            });
+
+            for (const way of createdWays) {
+                for (let i = 1; i < way.length; i++) {
+                    layerCreated.addNodes([
+                        new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(way[i - 1].lon, way[i - 1].lat).transform(projection, map.getProjectionObject())),
+                        new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(way[i].lon, way[i].lat).transform(projection, map.getProjectionObject()))
+                    ]);
+                }
+            }
+
+            for (const way of modifiedWays) {
+                for (let i = 1; i < way.length; i++) {
+                    layerModified.addNodes([
+                        new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(way[i - 1].lon, way[i - 1].lat).transform(projection, map.getProjectionObject())),
+                        new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(way[i].lon, way[i].lat).transform(projection, map.getProjectionObject()))
+                    ]);
+                }
+            }
+
+            for (const way of deletedWays) {
+                for (let i = 1; i < way.length; i++) {
+                    layerDeleted.addNodes([
+                        new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(way[i - 1].lon, way[i - 1].lat).transform(projection, map.getProjectionObject())),
+                        new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(way[i].lon, way[i].lat).transform(projection, map.getProjectionObject()))
+                    ]);
+                }
+            }
+
+            for (const n of created) {
+                layerCreated.addNodes([
+                    new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(n.lon, n.lat).transform(projection, map.getProjectionObject())),
+                    new OpenLayers.Feature(layerCreated, new OpenLayers.LonLat(n.lon, n.lat).transform(projection, map.getProjectionObject()))
+                ]);
+            }
+
+            for (const n of deleted) {
+                layerDeleted.addNodes([
+                    new OpenLayers.Feature(layerDeleted, new OpenLayers.LonLat(n.lon, n.lat).transform(projection, map.getProjectionObject())),
+                    new OpenLayers.Feature(layerDeleted, new OpenLayers.LonLat(n.lon, n.lat).transform(projection, map.getProjectionObject()))
+                ]);
+            }
+
+            for (const n of modified) {
+                layerModified.addNodes([
+                    new OpenLayers.Feature(layerModified, new OpenLayers.LonLat(n.lon, n.lat).transform(projection, map.getProjectionObject())),
+                    new OpenLayers.Feature(layerModified, new OpenLayers.LonLat(n.lon, n.lat).transform(projection, map.getProjectionObject()))
+                ]);
+            }
+
+            map.addLayer(layerModified);
+            map.addLayer(layerDeleted);
+            map.addLayer(layerCreated);
+
+            const extent1 = layerCreated.getDataExtent();
+            const extent2 = layerDeleted.getDataExtent();
+            const extent3 = layerModified.getDataExtent();
+            let extent = extent1;
+            if (extent) {
+                extent.extend(extent2);
+                extent.extend(extent3);
+            } else {
+                extent = extent2;
+                if (extent) {
+                    extent.extend(extent3);
+                } else {
+                    extent = extent3;
+                }
+            }
+
+            if (extent) {
+                map.zoomToExtent(extent);
+            } else {
+                map.zoomToMaxExtent();
+            }
+        }
+    </script>
+</body>
+</html>
