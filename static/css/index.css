@@ -25,10 +25,10 @@
 }
 
 .project-header {
-    margin: -5px 0 10px 25px;
+    margin: -5px 0 10px 20px;
     text-align: left;
     font-size: 20px;
-    color: #b0b0b0;
+    color: var(--header-color);
 }
 
 /* Link containers */

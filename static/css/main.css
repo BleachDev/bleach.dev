@@ -41,6 +41,10 @@ a:hover {
     color: var(--link-hover-color);
 }
 
+summary:hover {
+    cursor: pointer;
+}
+
 .hr {
     height: 1px;
     background-color: #373737;

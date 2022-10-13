@@ -33,10 +33,6 @@ details {
     margin-bottom: 5px;
 }
 
-details:hover {
-    cursor: pointer;
-}
-
 table {
     border-collapse: collapse;
     margin-left: 15px;

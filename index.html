@@ -27,7 +27,7 @@
 <body>
     <h1 id="greeting">Hi :)</h1>
 
-    <div class="box" style="max-width: 520px;">
+    <div class="box" style="max-width: 525px;">
         <nav>
             <a id="about-nav" onclick="showContainer('about');">About Me</a>
             <a id="projects-nav" onclick="showContainer('projects');">Projects</a>
@@ -87,90 +87,97 @@
         </div>
 
         <div id="projects">
+            <details open="open">
+                <summary class="project-header">Webapps</summary>
 
-            <p class="project-header">Webapps:</p>
-
-            <div class="box project-box">
-                <img src="https://cdn.7tv.app/emote/618302fe8d50b5f26ee7b9bc/4x.webp">
-                <h3>OSM Changeset Visualizer</h3>
-                <p>Modernized and serverless version of <a href="https://osmhv.openstreetmap.de/">osmhv</a><br>for visualizing OpenStreetMap changesets.</p>
-                <div class="links-wide">
-                    <a class="color-link" href="osmcv.html"><img src="static/img/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/bleach.dev/blob/main/osmcv.html"><img src="static/img/logos/github.svg"></a>
-                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                <div class="box project-box">
+                    <img src="https://cdn.7tv.app/emote/618302fe8d50b5f26ee7b9bc/4x.webp">
+                    <h3>OSM Changeset Visualizer</h3>
+                    <p>Modernized and serverless version of <a href="https://osmhv.openstreetmap.de/">osmhv</a><br>for visualizing OpenStreetMap changesets.</p>
+                    <div class="links-wide">
+                        <a class="color-link" href="osmcv.html"><img src="static/img/logos/home.svg"></a>
+                        <a class="color-link" href="https://github.com/BleachDev/bleach.dev/blob/main/osmcv.html"><img src="static/img/logos/github.svg"></a>
+                        <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                    </div>
                 </div>
-            </div>
 
-            <div style="height: 20px;"></div>
+                <div style="height: 20px;"></div>
 
-            <div class="box project-box">
-                <img src="static/img/icongen.png">
-                <h3>Icon Generator</h3>
-                <p>Tool that generates template code from over 1500 SVG icons/logos.</p>
-                <div class="links-wide">
-                    <a class="color-link" href="icons.html"><img src="static/img/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/bleach.dev/blob/main/icons.html"><img src="static/img/logos/github.svg"></a>
-                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                <div class="box project-box">
+                    <img src="static/img/icongen.png">
+                    <h3>Icon Generator</h3>
+                    <p>Tool that generates template code from over 1500 SVG icons/logos.</p>
+                    <div class="links-wide">
+                        <a class="color-link" href="icons.html"><img src="static/img/logos/home.svg"></a>
+                        <a class="color-link" href="https://github.com/BleachDev/bleach.dev/blob/main/icons.html"><img src="static/img/logos/github.svg"></a>
+                        <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                    </div>
                 </div>
-            </div>
+            </details>
 
             <div class="hr"></div>
-            <p class="project-header">Minecraft Mods:</p>
 
-            <div class="box project-box">
-                <img src="static/img/bh.png">
-                <h3>BleachHack</h3>
-                <p>BleachHack is a utility mod for Minecraft originally made for <a href="https://endcrystal.me/">endcrystal.me</a>.</p>
-                <div class="links-wide">
-                    <a class="color-link" href="https://bleachhack.org/"><img src="static/img/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/BleachHack"><img src="static/img/logos/github.svg"></a>
-                    <a class="color-link" href="https://bleachhack.org/discord"><img src="static/img/logos/discord.svg"></a>
+            <details open="open">
+                <summary class="project-header">Minecraft Mods</summary>
+
+                <div class="box project-box">
+                    <img src="static/img/bh.png">
+                    <h3>BleachHack</h3>
+                    <p>BleachHack is a utility mod for Minecraft originally made for <a href="https://endcrystal.me/">endcrystal.me</a>.</p>
+                    <div class="links-wide">
+                        <a class="color-link" href="https://bleachhack.org/"><img src="static/img/logos/home.svg"></a>
+                        <a class="color-link" href="https://github.com/BleachDev/BleachHack"><img src="static/img/logos/github.svg"></a>
+                        <a class="color-link" href="https://bleachhack.org/discord"><img src="static/img/logos/discord.svg"></a>
+                    </div>
                 </div>
-            </div>
 
-            <div style="height: 20px;"></div>
+                <div style="height: 20px;"></div>
 
-            <div class="box project-box">
-                <img src="static/img/oneblock.png">
-                <h3>One Block At A Time</h3>
-                <p>The 22w13a Minecraft April fools update ported to other versions.</p>
+                <div class="box project-box">
+                    <img src="static/img/oneblock.png">
+                    <h3>One Block At A Time</h3>
+                    <p>The 22w13a Minecraft April fools update ported to other versions.</p>
 
-                <div class="links-wide">
-                    <a class="color-link" href="https://modrinth.com/mod/oneblock"><img src="static/img/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/oneblock"><img src="static/img/logos/github.svg"></a>
-                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                    <div class="links-wide">
+                        <a class="color-link" href="https://modrinth.com/mod/oneblock"><img src="static/img/logos/home.svg"></a>
+                        <a class="color-link" href="https://github.com/BleachDev/oneblock"><img src="static/img/logos/github.svg"></a>
+                        <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                    </div>
                 </div>
-            </div>
 
-            <div style="height: 20px;"></div>
+                <div style="height: 20px;"></div>
 
-            <div class="box project-box">
-                <img src="static/img/mcosm.png">
-                <h3>McOSM</h3>
-                <p>A Mod that imports OpenStreetMap data into Minecraft.</p>
+                <div class="box project-box">
+                    <img src="static/img/mcosm.png">
+                    <h3>McOSM</h3>
+                    <p>A Mod that imports OpenStreetMap data into Minecraft.</p>
 
-                <div class="links-wide">
-                    <a class="inactive-link"><img src="static/img/logos/home.svg"></a>
-                    <a class="color-link" href="https://github.com/BleachDev/mcosm"><img src="static/img/logos/github.svg"></a>
-                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                    <div class="links-wide">
+                        <a class="inactive-link"><img src="static/img/logos/home.svg"></a>
+                        <a class="color-link" href="https://github.com/BleachDev/mcosm"><img src="static/img/logos/github.svg"></a>
+                        <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                    </div>
                 </div>
-            </div>
+            </details>
 
             <div class="hr"></div>
-            <p class="project-header">Others/Misc:</p>
 
-            <div class="box project-box">
-                <img src="static/icon.png">
-                <h3>????</h3>
-                <p style="color: var(--header-color);">more projects coming soon. probably.</p>
-                <div class="links-wide">
-                    <a class="inactive-link"><img src="static/img/logos/home.svg"></a>
-                    <a class="inactive-link"><img src="static/img/logos/github.svg"></a>
-                    <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+            <details open="open">
+                <summary class="project-header">Others/Misc</summary>
+
+                <div class="box project-box">
+                    <img src="static/icon.png">
+                    <h3>????</h3>
+                    <p style="color: var(--header-color);">more projects coming soon. probably.</p>
+                    <div class="links-wide">
+                        <a class="inactive-link"><img src="static/img/logos/home.svg"></a>
+                        <a class="inactive-link"><img src="static/img/logos/github.svg"></a>
+                        <a class="inactive-link"><img src="static/img/logos/discord.svg"></a>
+                    </div>
                 </div>
-            </div>
 
-            <p>guh?! unfinished section</p>
+                <p>guh?! <img src="https://cdn.7tv.app/emote/618302fe8d50b5f26ee7b9bc/4x.webp" width="16"> unfinished section</p>
+            </details>
         </div>
 
         <div id="contact">
