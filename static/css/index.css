@@ -49,35 +49,3 @@
 .links-compact img {
     margin: 0 1px;
 }
-
-.tooltip-trigger {
-    position: relative;
-}
-
-.tooltip-trigger:hover .tooltip, .tooltip:hover {
-    visibility: visible;
-}
-
-.tooltip {
-    visibility: hidden;
-    background-color: #00000080;
-    color: #ffe0fe;
-    border-radius: 6px;
-    padding: 4px 8px;
-    position: absolute;
-    z-index: 1;
-    bottom: 170%;
-    left: -98%;
-    cursor: text;
-}
-
-.tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #00000080 transparent transparent transparent;
-}
