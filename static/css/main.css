@@ -6,7 +6,6 @@
 
     --text-color: #e0e0e0;
     --header-color: #f5ea8e;
-    --header-color: #f5ea8e;
     --link-color: #ffb7fa;
     --link-hover-color: #77c8d9;
 }
@@ -49,7 +48,7 @@ summary:hover {
 .hr {
     height: 1px;
     background-color: #373737;
-    margin: 10px 10px;
+    margin: 10px;
 }
 
 .box {
@@ -124,16 +123,12 @@ input, label {
     border: none;
     color: var(--text-color);
     border-radius: 6px;
-    margin: 2px 5px 5px;
+    margin: 2px 3px 5px;
     padding: 4px 7px;
 }
 
 input {
     background-color: var(--box-color);
-}
-
-input[type="text"] {
-    width: 90%;
 }
 
 input[type="radio"] {
