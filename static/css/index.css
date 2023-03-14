@@ -49,3 +49,16 @@
 .links-compact img {
     margin: 0 1px;
 }
+
+/* Toasts */
+
+.toast .grey-text {
+    text-align: center;
+    color: #ccc;
+    margin: 10px;
+}
+
+.toast .toast-img {
+    width: 100%;
+    margin: auto;
+}
