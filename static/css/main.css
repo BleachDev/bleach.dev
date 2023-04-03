@@ -100,6 +100,18 @@ nav > a {
     -webkit-filter: drop-shadow(0 0 2px #fff);
 }
 
+.bleach-link {
+    background: linear-gradient(0.4turn, #ffd553, #ec832d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration-color: #ffd553;
+    transition-duration: 0.5s;
+}
+
+.bleach-link:hover {
+    -webkit-text-fill-color: #ffd96b;
+}
+
 /* Toasts */
 
 .toast {
