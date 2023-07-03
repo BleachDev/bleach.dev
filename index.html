@@ -211,7 +211,7 @@
         <div id="contact">
             <p>If you have any questions, feel free to contact me<br>
                 via Discord (<a href="https://discord.gg/invite/bleach-s-projects-620600892718055434">Join the server</a>) or Email.</p>
-            <p>Discord: <span style="color: #ffe0fe">Bleach#0136</span></p>
+            <p>Discord: <span style="color: #ffe0fe">bleaching</span></p>
             <p>Email: <span style="color: #ffe0fe">me@bleach.dev</span></p>
         </div>
     </div>
@@ -342,11 +342,11 @@
             };
         }
         document.onkeydown = e => {
-            if (e.key == "Escape") {
+            if (e.key === "Escape") {
                 for (let t of document.getElementsByClassName("toast")) {
                     t.style.display = "none";
                 }
-            };
+            }
         };
 
         function openToast(toast) {
