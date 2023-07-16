@@ -25,6 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <script src="https://ms.bleach.dev/words.js"></script>
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
 </head>
 <body>
@@ -269,7 +270,8 @@
 
     function init() {
         document.getElementById("username").value =
-            document.cookie.split("; ").find(row => row.startsWith("username="))?.split("=")[1] ?? ("guest" + ((Math.random() * 1000) | 0));
+            document.cookie.split("; ").find(row => row.startsWith("username="))?.split("=")[1]
+            ?? words[~~(Math.random() * (words.length - 1))] + (Math.random() > 0.5 ? ~~(Math.random() * 100) : "");
 
         // Setup Tetris Grid
         const element = document.getElementById("tetris");
