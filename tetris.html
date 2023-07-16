@@ -69,7 +69,7 @@
 
 <div class="bottom-right">
     <p class="corner-text">
-        v1.0<br>
+        v1.1a<br>
         A&nbsp;<a href="https://bleach.dev" class="bleach-link">bleach.dev</a>&nbsp;Game
     </p>
 </div>
@@ -185,6 +185,9 @@
 
     let timer = 0;
     let lastTime;
+
+    let gameId;
+    let moves;
 
     const keyStates = {};
     const handleKeyUp = e => keyStates[e.key] = null;
@@ -327,6 +330,9 @@
         render();
 
         tickId = setInterval(tickInterval, 10);
+        gameId = (Math.random() + 1).toString(36).substring(7);
+        moves = "";
+        fetch("https://api.bleach.dev/tetris/startgame?id=" + gameId);
     }
 
     function stop() {
@@ -364,6 +370,7 @@
                 if (board.slice(line, line + width).every(v => v)) {
                     for (let cell = line + width - 1; cell >= 0; cell--) {
                         board[cell] = cell < width ? 0 : board[cell - width];
+                        moves += "c" + cell;
                     }
 
                     clearedLines++;
@@ -373,8 +380,12 @@
                         document.getElementById("play-button").onclick = resume;
                         stop();
 
-                        fetch(`https://api.bleach.dev/tetris/submittime?name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.0&moves=-`)
-                            .then(r => r.ok);
+                        fetch(`https://api.bleach.dev/tetris/submittime?name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.1a&moves=${moves}`)
+                            .then(r => r.ok);  // TODO: Remove when i setup the webbruh
+                        fetch(`https://api.bleach.dev/tetris/submittime?id=${gameId}&name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.1a`, {
+                            method: 'POST',
+                            body: moves
+                        }).then(r => r.ok);
                     }
 
                     updateLinesCleared();
@@ -585,6 +596,7 @@
 
     function summonPiece() {
         const piece = nextPieces.shift();
+        moves += "s" + PIECES.indexOf(piece);
         for (let i = 0; i < piece.array.length; i++) {
             const boardPos = 5 - Math.floor(piece.width / 2) + Math.floor(i / piece.width) * width + (i % piece.width);
             if (board[boardPos]) {
@@ -593,8 +605,12 @@
                 document.getElementById("play-button").onclick = start;
                 stop();
 
-                fetch(`https://api.bleach.dev/tetris/submitlines?name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.0&moves=-`)
-                    .then(r => r.ok);
+                fetch(`https://api.bleach.dev/tetris/submitlines?name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.1a&moves=-`)
+                    .then(r => r.ok); // TODO: Remove when i setup the webbruh
+                fetch(`https://api.bleach.dev/tetris/submitlines?id=${gameId}&name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.1a`, {
+                    method: 'POST',
+                    body: moves
+                }).then(r => r.ok);
 
                 return;
             }
