@@ -98,14 +98,14 @@
         <details>
             <summary style="margin: 5px;">Leaderboard</summary>
             <div>
-                <button class="leaderboard-button" id="lb-time" style="text-decoration: underline;"
-                        onclick="fetchLeaderboard(`https://api.bleach.dev/tetris/leaderboardtime`);
-                        document.getElementById(`lb-time`).style.textDecoration = `underline`;
-                        document.getElementById(`lb-lines`).style.textDecoration = ``;">40 Lines</button>
-                <button class="leaderboard-button" id="lb-lines"
+                <button class="leaderboard-button" id="lb-lines" style="text-decoration: underline;"
                         onclick="fetchLeaderboard(`https://api.bleach.dev/tetris/leaderboardlines`);
                         document.getElementById(`lb-lines`).style.textDecoration = `underline`;
                         document.getElementById(`lb-time`).style.textDecoration = ``;">Most Lines</button>
+                <button class="leaderboard-button" id="lb-time"
+                        onclick="fetchLeaderboard(`https://api.bleach.dev/tetris/leaderboardtime`);
+                        document.getElementById(`lb-time`).style.textDecoration = `underline`;
+                        document.getElementById(`lb-lines`).style.textDecoration = ``;">40 Lines</button>
                 <div class="box" id="leaderboard">
                     <div>Loading..</div>
                 </div>
@@ -284,7 +284,7 @@
             }
         }
 
-        fetchLeaderboard("https://api.bleach.dev/tetris/leaderboardtime");
+        fetchLeaderboard("https://api.bleach.dev/tetris/leaderboardlines");
     }
 
     function fetchLeaderboard(url) {
