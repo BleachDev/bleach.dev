@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Tetris guh edition</title>
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <meta property="og:site_name" content="bleach.dev">
+    <meta property="og:title" content="Tetris guh edition">
+    <meta property="og:url" content="https://bleach.dev/">
+    <meta property="og:image" content="https://bleach.dev/static/icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Totally normal tetris with all the normal pieces.">
+    <meta name="theme-color" content="#ebafcc">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/x-icon" href="static/icon.ico">
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/tetris.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+</head>
+<body>
+
+<div style="display: inline-block; vertical-align: top; margin-top: 75px;">
+    <h2 style="margin: 0;">HOLD</h2>
+    <div id="holding" class="grid small-grid">
+        <div class="grid-cell"></div>
+    </div>
+</div>
+
+<div style="display: inline-block;">
+    <div id="tetris" class="grid"></div>
+</div>
+
+<div style="display: inline-block; vertical-align: top; margin-top: 75px;">
+    <h2 style="margin: 0;">NEXT</h2>
+    <div id="next-1" class="grid small-grid">
+        <div class="grid-cell"></div>
+    </div>
+    <div id="next-2" class="grid small-grid">
+        <div class="grid-cell"></div>
+    </div>
+    <div id="next-3" class="grid small-grid">
+        <div class="grid-cell"></div>
+    </div>
+    <div id="next-4" class="grid small-grid">
+        <div class="grid-cell"></div>
+    </div>
+    <div id="next-5" class="grid small-grid">
+        <div class="grid-cell"></div>
+    </div>
+</div>
+
+<div id="progress">
+    <div id="progressbar"></div>
+    <p id="cleared-text">Lines Cleared: 0</p>
+</div>
+
+<p id="timer">00:00.00</p>
+
+<div class="bottom-right">
+    <p class="corner-text">
+        v1.0<br>
+        A&nbsp;<a href="https://bleach.dev" class="bleach-link">bleach.dev</a>&nbsp;Game
+    </p>
+</div>
+<div class="bottom-left">
+    <p class="corner-text">
+        Controls:<br>
+        <b>ARROWS</b> Move<br>
+        <b>X/Z/UP</b> Rotate<br>
+        <b>SHIFT</b> Hold Piece<br>
+        <b>SPACE</b> Drop Piece
+    </p>
+</div>
+
+<div class="toast" id="toast" style="display: flex;">
+    <div class="box">
+        <h1>Tetris™<br>Totally Normal Edition</h1>
+        <p class="toast-header">Goal: Clear 40 Lines.</p>
+        <p id="toast-text">Click Play to start!</p>
+        <button id="play-button" onclick="start();">Play</button>
+        <br/>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username-join">
+
+        <div class="hr"></div>
+
+        <details>
+            <summary style="margin: 5px;">Leaderboard</summary>
+            <div>
+                <button class="leaderboard-button" id="lb-time" style="text-decoration: underline;"
+                        onclick="fetchLeaderboard(`https://api.bleach.dev/tetris/leaderboardtime`);
+                        document.getElementById(`lb-time`).style.textDecoration = `underline`;
+                        document.getElementById(`lb-lines`).style.textDecoration = ``;">40 Lines</button>
+                <button class="leaderboard-button" id="lb-lines"
+                        onclick="fetchLeaderboard(`https://api.bleach.dev/tetris/leaderboardlines`);
+                        document.getElementById(`lb-lines`).style.textDecoration = `underline`;
+                        document.getElementById(`lb-time`).style.textDecoration = ``;">Most Lines</button>
+                <div class="box" id="leaderboard">
+                    <div>Loading..</div>
+                </div>
+            </div>
+        </details>
+    </div>
+</div>
+
+
+<script>
+    class Piece {
+        constructor(array, width) {
+            this.array = array;
+            this.width = width;
+            this.height = array.length / width;
+        }
+    }
+
+    const PIECES = [
+        new Piece([1, 1, 1, 1], 4), // I
+        new Piece([1, 0, 0, 1, 1, 1], 3), // J
+        new Piece([0, 0, 1, 1, 1, 1], 3), // L
+        new Piece([1, 1, 1, 1], 2), // O
+        new Piece([1, 1, 0, 0, 1, 1], 3), // S
+        new Piece([0, 1, 0, 1, 1, 1], 3), // T
+        new Piece([0, 1, 1, 1, 1, 0], 3), // Z
+        new Piece([1], 1), // .
+        new Piece([1, 1], 2), // I-2
+        new Piece([1, 1, 1, 0], 2), // L-
+        new Piece([1, 1, 1], 3), // I-3
+        new Piece([1, 1, 1, 1, 0, 0, 1, 0, 0], 3), // L+
+        new Piece([0, 1, 0, 0, 1, 0, 1, 1, 1], 3), // T+
+        new Piece([1, 1, 1, 1, 0, 1, 0, 0], 4), // T-4
+        new Piece([1, 1, 1, 1, 0, 0, 1, 0], 4), // T-4A
+        new Piece([1, 1, 1, 1, 1, 1, 1, 1, 1], 3), // O-3
+        new Piece([0, 1, 1, 0, 1, 0, 1, 1, 0], 3), // S+
+        new Piece([1, 1, 0, 0, 1, 0, 0, 1, 1], 3), // Z+
+        new Piece([1, 1, 1, 1, 1], 5), // I-5
+        new Piece([1, 0, 1, 0, 1, 0], 3), // V
+        new Piece([0, 1, 1, 1, 1, 0, 1, 0, 0], 3), // W
+        new Piece([0, 1, 1, 1, 1, 1, 0, 0], 4), // LONG S
+        new Piece([1, 1, 1, 0, 0, 0, 1, 1], 4), // LONG Z
+        new Piece([0, 0, 1, 0, 1, 0, 1, 0, 0], 3), // DIAGONAL
+        new Piece([0, 1, 0, 1, 1, 1, 0, 1, 0], 3), // +
+        new Piece([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 4), // O-4
+        new Piece([1, 0, 1, 1, 1, 1], 3), // U
+        new Piece([1, 0, 0, 1], 4), // EYES
+        new Piece([0, 1, 0, 0, 0, 0, 1, 0, 1], 3), // 3 CORNERS
+        new Piece([1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0], 4), // L++
+        new Piece([0, 1, 1, 0, 1, 1, 1, 1], 4), // 4x2 MINUS CORNERS
+        new Piece([0, 0, 1, 0, 0, 0, 1, 0, 0], 4), // DIAGONAL EYES
+        new Piece([1, 0, 1, 0, 0, 0, 1, 0, 1], 3), // CORNERS
+    ];
+    const DEFAULT_COLORS = ["#3bb88a", "#6f5fc0", "#c06f3e", "#c5ad44", "#bb3e44", "#af4ba6", "#86b43a"];
+    for (let i = 0; i < PIECES.length; i++) {
+        for (let k = 0; k < PIECES[i].array.length; k++) {
+            const v = PIECES[i].array[k];
+            PIECES[i].array[k] = v === 0 ? 0 : i < DEFAULT_COLORS.length ? DEFAULT_COLORS[i] : `hsla(${i * 0.17 * 360}, 100%, 70%, 1)`;
+        }
+    }
+
+    const synth = new Tone.FMSynth().toDestination();
+
+    const height = 22;
+    const width = 10;
+    const board = new Array(height * width).fill(0);
+    const fallingBoard = new Array(height * width).fill(0);
+
+    let canHold = true;
+    let holdingPiece;
+    const nextPieces = [];
+
+    let clearedLines = 0;
+
+    let gracePeriod = 0;
+
+    let timer = 0;
+    let lastTime;
+
+    const keyStates = {};
+    const handleKeyUp = e => keyStates[e.key] = null;
+    const handleKeyDown = e => {
+        if (!Object.hasOwn(keyStates, e.key) || keyStates[e.key] === null)
+            keyStates[e.key] = 0;
+
+        if (e.key === "ArrowUp" || e.key === "x" || e.key === "z") {
+            rotateFalling(e.key === "z");
+            if (gracePeriod >= 0)
+                gracePeriod = 1;
+
+            synth.triggerAttackRelease("G4", "256n", Tone.now(), 0.3);
+        } else if (e.key === " ") {
+            while (offsetFalling(0, 1)) {}
+            gracePeriod = 0;
+            tick();
+
+            synth.triggerAttackRelease("D3", "24n", Tone.now(), 0.2);
+        } else if (e.key === "Shift") {
+            holdPiece();
+        }
+    };
+
+    let ticker = 0;
+    let tickId;
+    const tickInterval = () => {
+        const leftDown = keyStates["ArrowLeft"] === 0 || (keyStates["ArrowLeft"] >= 200 && keyStates["ArrowLeft"] % 50 === 0);
+        const rightDown = keyStates["ArrowRight"] === 0 || (keyStates["ArrowRight"] >= 200 && keyStates["ArrowRight"] % 50 === 0);
+        const downDown = keyStates["ArrowDown"] === 0 || (keyStates["ArrowDown"] >= 200 && keyStates["ArrowDown"] % 50 === 0);
+        if (leftDown || rightDown || downDown) {
+            if (gracePeriod >= 0)
+                gracePeriod = 1;
+
+            if ((((leftDown || rightDown) && offsetFalling(leftDown ? -1 : 1, 0))) || (downDown && offsetFalling(0, 1))) {
+                render();
+                synth.triggerAttackRelease(leftDown || rightDown ? "E#4" : "C#4", "256n", Tone.now(), 0.4);
+            }
+        }
+
+        for (let key in keyStates) {
+            if (keyStates[key] !== null) {
+                keyStates[key] += 10;
+            }
+        }
+
+        if (ticker >= Math.max(110, 350 - (clearedLines * 7.5))) {
+            tick();
+            ticker = 0;
+        } else {
+            ticker += 10;
+        }
+
+        timer = Math.round(timer + (performance.now() - lastTime));
+        lastTime = performance.now();
+        document.getElementById("timer").innerText = formatTime(timer);
+    };
+
+    document.addEventListener("keydown", e => {
+       if (document.getElementById("toast").style.display !== "none" && (e.key === "Enter")) {
+           document.getElementById("play-button").click();
+       }
+    });
+
+    function formatTime(ms) {
+        const minutes = Math.floor(ms / 1000 / 60);
+        const seconds = Math.floor(ms / 1000) % 60;
+        const millis = Math.floor(ms / 10) % 100;
+        return (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + (millis < 10 ? "0" : "") + millis;
+    }
+
+    function getElement(x, y) {
+        return document.getElementById("cell-" + x + "-" + y);
+    }
+
+    function getBoard(x, y) {
+        return (x < 0 || x >= width || y < 0 || y >= height) ? 99 : board[y * width + x];
+    }
+
+    function getFallingBoard(x, y) {
+        return (x < 0 || x >= width || y < 0 || y >= height) ? 99 : fallingBoard[y * width + x];
+    }
+
+    function init() {
+        document.getElementById("username").value =
+            document.cookie.split("; ").find(row => row.startsWith("username="))?.split("=")[1] ?? ("guest" + ((Math.random() * 1000) | 0));
+
+        // Setup Tetris Grid
+        const element = document.getElementById("tetris");
+        element.style.gridTemplateColumns = "repeat(" + width + ", 1fr)";
+        element.style.gridAutoRows = (100 / height) + "%";
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const cellElement = document.createElement('div');
+                cellElement.classList.add(y <= 1 ? "grid-cell-hidden" : 'grid-cell');
+                cellElement.id = "cell-" + x + "-" + y;
+                element.appendChild(cellElement);
+            }
+        }
+
+        fetchLeaderboard("https://api.bleach.dev/tetris/leaderboardtime");
+    }
+
+    function fetchLeaderboard(url) {
+        document.getElementById("leaderboard").innerHTML = "Loading..";
+        fetch(url)
+            .then(r => r.json())
+            .then(d => {
+                let i = 1;
+                let str = "<div class='leaderboard-left-h'>Rank</div><div class='leaderboard-left-h'>Username</div><div class='leaderboard-right-h'>Lines / Time</div>";
+                d.forEach(e => {
+                    str += "<div class='leaderboard-left'>#" + i
+                        + "</div><div class='leaderboard-left'>" + e.username
+                        + "</div><div class='leaderboard-right'>" + e.lines + " / " + formatTime(e.time) + "</div>";
+                    i++;
+                });
+                document.getElementById("leaderboard").innerHTML = str;
+            });
+    }
+
+    function start() {
+        Tone.start();
+        document.addEventListener("keyup", handleKeyUp);
+        document.addEventListener("keydown", handleKeyDown);
+        document.getElementById("toast").style.display = "none";
+
+        lastTime = performance.now();
+        timer = 0;
+        clearedLines = 0;
+        updateLinesCleared();
+        board.fill(0);
+
+        // Generate random next pieces
+        for (let i = 0; i < 5; i++) {
+            nextPieces.push(PIECES[7 * Math.random() | 0]);
+        }
+
+        summonPiece();
+        render();
+
+        tickId = setInterval(tickInterval, 10);
+    }
+
+    function stop() {
+        document.removeEventListener("keyup", handleKeyUp);
+        document.removeEventListener("keydown", handleKeyDown);
+        document.getElementById("toast").style.display = "flex";
+
+        clearInterval(tickId);
+    }
+
+    function resume() {
+        document.addEventListener("keyup", handleKeyUp);
+        document.addEventListener("keydown", handleKeyDown);
+        document.getElementById("toast").style.display = "none";
+
+        lastTime = performance.now();
+        tickId = setInterval(tickInterval, 10);
+    }
+
+    function tick() {
+        if (!offsetFalling(0, 1)) {
+            if (gracePeriod > 0) {
+                gracePeriod = -1;
+                return;
+            }
+
+            for (let j = 0; j < fallingBoard.length; j++) {
+                if (fallingBoard[j])
+                    board[j] = fallingBoard[j];
+            }
+            fallingBoard.fill(0);
+
+            // Clear lines
+            for (let line = 0; line < board.length; line += width) {
+                if (board.slice(line, line + width).every(v => v)) {
+                    for (let cell = line + width - 1; cell >= 0; cell--) {
+                        board[cell] = cell < width ? 0 : board[cell - width];
+                    }
+
+                    clearedLines++;
+                    if (clearedLines === 40) {
+                        document.getElementById("toast-text").innerHTML = `<span style="color: #9cff8d;">You cleared 40 lines in ${document.getElementById("timer").innerText}!</span>`;
+                        document.getElementById("play-button").innerText = "Continue";
+                        document.getElementById("play-button").onclick = resume;
+                        stop();
+
+                        fetch(`https://api.bleach.dev/tetris/submittime?name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.0&moves=-`)
+                            .then(r => r.ok);
+                    }
+
+                    updateLinesCleared();
+                }
+            }
+
+            summonPiece();
+            canHold = true;
+        } else {
+            gracePeriod = 0;
+        }
+
+        render();
+    }
+
+    function updateLinesCleared() {
+        document.getElementById("cleared-text").innerText = "Lines Cleared: " + clearedLines;
+        document.getElementById("progressbar").style.width = (clearedLines / 40 * 100) + "%";
+    }
+
+    function render() {
+        // Reset board
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {
+                getElement(x, y).style.border = null;
+            }
+        }
+
+        // Ghost rendering
+        for (let i = 1; i <= height; i++) {
+            if (!offsetFalling(0, i, false)) {
+                for (let x = 0; x < width; x++) {
+                    for (let y = 0; y < height; y++) {
+                        if (getFallingBoard(x, y)) {
+                            getElement(x, y + i - 1).style.border = "2px solid " + getFallingBoard(x, y);
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        // Board rendering
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {
+                if (getFallingBoard(x, y))
+                    getElement(x, y).style.border = "12px solid " + getFallingBoard(x, y);
+
+                if (getBoard(x, y))
+                    getElement(x, y).style.border = "12px solid " + getBoard(x, y);
+            }
+        }
+    }
+
+    function offsetFalling(offsetX, offsetY, write = true) {
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {
+                if (getFallingBoard(x, y) && getBoard(x + offsetX, y + offsetY)) {
+                    return false;
+                }
+            }
+        }
+
+        if (write) {
+            const buffer = fallingBoard.slice();
+            fallingBoard.fill(0);
+            for (let i = 0; i < fallingBoard.length; i++) {
+                if (buffer[i]) {
+                    fallingBoard[i + offsetY * width + offsetX] = buffer[i];
+                }
+            }
+        }
+        return true;
+    }
+
+    function cropBoard(brd) {
+        let minX, minY, maxX, maxY;
+        for (let i = 0; i < brd.length; i++) {
+            if (brd[i]) {
+                maxY = Math.floor(i / width);
+                if (minY === undefined) {
+                    minY = maxY;
+                }
+            }
+        }
+
+        for (let i = 0; i < brd.length + width - 1; i += width) {
+            if (i >= width * height) {
+                i = i % (width * height) + 1;
+            }
+
+            if (brd[i]) {
+                maxX = Math.floor(i % width);
+                if (minX === undefined) {
+                    minX = maxX;
+                }
+            }
+        }
+
+        const piece = new Piece(new Array((maxX - minX + 1) * (maxY - minY + 1)), (maxX - minX) + 1);
+        for (let y = 0; y <= maxY - minY; y++) {
+            for (let x = 0; x <= maxX - minX; x++) {
+                piece.array[y * piece.width + x] = brd[(minY + y) * width + minX + x];
+            }
+        }
+
+        const centerX = Math.round((minX + maxX) / 2);
+        const centerY = Math.round((minY + maxY) / 2);
+        return {
+            "piece": piece,
+            "minX": minX,
+            "minY": minY,
+            "maxX": maxX,
+            "maxY": maxY,
+            "centerX": centerX,
+            "centerY": centerY
+        };
+    }
+
+    function rotateFalling(reverse) {
+        const c = cropBoard(fallingBoard);
+        const newX = c.centerX - (c.centerY - c.minY);
+        const newY = c.centerY - (c.centerX - c.minX);
+
+        for (let o of [[0, 0], [-1, 0], [-1, -1], [0, 2], [-1, 2]]) {
+            let found = true;
+            for (let x = 0; x <= c.maxX - c.minX; x++) {
+                for (let y = 0; y <= c.maxY - c.minY; y++) {
+                    if (getFallingBoard(c.minX + x, c.minY + y) && getBoard(newX + (c.maxY - c.minY) - y + o[0], newY + x + o[1])) {
+                        found = false;
+                    }
+                }
+            }
+
+            if (found) {
+                const buffer = fallingBoard.slice();
+                fallingBoard.fill(0);
+                for (let x = 0; x <= c.maxX - c.minX; x++) {
+                    for (let y = 0; y <= c.maxY - c.minY; y++) {
+                        if (buffer[(c.minY + y) * width + c.minX + x]) {
+                            fallingBoard[(newY + (reverse ? (c.maxX - c.minX) - x : x) + o[1]) * width + newX + (reverse ? y : (c.maxY - c.minY) - y) + o[0]] = buffer[(c.minY + y) * width + c.minX + x];
+                        }
+                    }
+                }
+
+                render();
+                return;
+            }
+        }
+    }
+
+    function holdPiece() {
+        if (!canHold) {
+            synth.triggerAttackRelease("A2", "24n", Tone.now(), 0.2);
+            return;
+        }
+
+        const c = cropBoard(fallingBoard);
+
+        putPieceInGrid("holding", c.piece)
+
+        // Swap or summon new piece on the board
+        fallingBoard.fill(0);
+        if (holdingPiece !== undefined) {
+            for (let i = 0; i < holdingPiece.array.length; i++) {
+                fallingBoard[Math.floor(i / holdingPiece.width) * width + (i % holdingPiece.width) + 4] = holdingPiece.array[i];
+            }
+        } else {
+            summonPiece();
+        }
+
+        holdingPiece = c.piece;
+        canHold = false;
+        synth.triggerAttackRelease("C5", "24n", Tone.now(), 0.3);
+        render();
+    }
+
+    function putPieceInGrid(elementName, piece) {
+        let dimensions = Math.max(piece.width, piece.height);
+        if (dimensions < 3)
+            dimensions += 2;
+        const offsetX = Math.floor((dimensions - piece.width) / 2);
+        const offsetY = Math.floor((dimensions - piece.height) / 2);
+
+        // Create holding grid
+        const element = document.getElementById(elementName);
+        element.style.gridTemplateColumns = "repeat(" + dimensions + ", 1fr)";
+        element.style.gridAutoRows = (100 / dimensions) + "%";
+        element.innerHTML = "";
+        for (let y = 0; y < dimensions; y++) {
+            for (let x = 0; x < dimensions; x++) {
+                const cellElement = document.createElement('div');
+                cellElement.classList.add('grid-cell');
+                element.appendChild(cellElement);
+
+                if ((x - offsetX) >= 0 && (x - offsetX) < piece.width && (y - offsetY) >= 0 && (y - offsetY) < piece.height) {
+                    cellElement.style.border = "10px solid " + piece.array[(y - offsetY) * piece.width + (x - offsetX)];
+                }
+            }
+        }
+    }
+
+    function updateNextPieces() {
+        for (let i = 0; i < 5; i++) {
+            putPieceInGrid("next-" + (i + 1), nextPieces[i]);
+        }
+    }
+
+    function summonPiece() {
+        const piece = nextPieces.shift();
+        for (let i = 0; i < piece.array.length; i++) {
+            const boardPos = 5 - Math.floor(piece.width / 2) + Math.floor(i / piece.width) * width + (i % piece.width);
+            if (board[boardPos]) {
+                document.getElementById("toast-text").innerHTML = `<span style="color: #ff8d90;">You Lost after clearing ${clearedLines} line${clearedLines === 1 ? "" : "s"}.</span>`;
+                document.getElementById("play-button").innerText = "Restart";
+                document.getElementById("play-button").onclick = start;
+                stop();
+
+                fetch(`https://api.bleach.dev/tetris/submitlines?name=${getAndSaveUsername()}&lines=${clearedLines}&time=${timer}&version=v1.0&moves=-`)
+                    .then(r => r.ok);
+
+                return;
+            }
+
+            fallingBoard[boardPos] = piece.array[i];
+        }
+
+        nextPieces.push(PIECES[Math.min(7 + clearedLines, PIECES.length) * Math.random() | 0]);
+        updateNextPieces();
+    }
+
+    function getAndSaveUsername() {
+        const name = document.getElementById("username").value;
+        document.cookie = "username=" + name + "; max-age=2592000";
+        return name;
+    }
+
+    init();
+</script>
+</body>
+</html>
