@@ -78,8 +78,8 @@
         Controls:<br>
         <b>ARROWS</b> Move<br>
         <b>X/Z/UP</b> Rotate<br>
-        <b>SHIFT</b> Hold Piece<br>
-        <b>SPACE</b> Drop Piece
+        <b>SPACE</b> Drop Piece<br>
+        <b>C/SHIFT</b> Hold Piece
     </p>
 </div>
 
@@ -209,7 +209,7 @@
             tick();
 
             synth.triggerAttackRelease("D3", "24n", Tone.now(), 0.2);
-        } else if (e.key === "Shift") {
+        } else if (e.key === "Shift" || e.key === "c") {
             holdPiece();
         }
     };
