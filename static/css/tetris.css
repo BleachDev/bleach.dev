@@ -54,7 +54,7 @@
 }
 
 .toast > div {
-    max-width: 400px;
+    width: 405px;
     max-height: 6000px;
 }
 
