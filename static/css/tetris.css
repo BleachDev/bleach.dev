@@ -58,16 +58,21 @@
     max-height: 6000px;
 }
 
-#play-button {
-    font-size: 26px;
-    margin: 3px;
-    width: 220px;
-}
-
 .toast-header {
     font-size: 20px;
     margin: 6px;
     color: var(--link-color);
+}
+
+.menu-button {
+    font-size: 32px;
+    width: 280px;
+}
+
+.half-menu-button {
+    font-size: 16px;
+    width: 34%;
+    margin: 0;
 }
 
 #leaderboard-button {
@@ -111,8 +116,8 @@ input {
 }
 
 .leaderboard-button {
-    width: 44%;
-    margin: 4px;
+    width: 40%;
+    margin: 4px 0;
 }
 
 /* Corner */
