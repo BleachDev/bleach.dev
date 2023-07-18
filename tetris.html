@@ -555,7 +555,7 @@
         const newX = c.centerX - (c.centerY - c.minY);
         const newY = c.centerY - (c.centerX - c.minX);
 
-        for (let o of [[0, 0], [-1, 0], [-1, -1], [0, 2], [-1, 2]]) {
+        for (let o of reverse ? [[0, 0], [1, 0], [1, -1], [0, -2], [1, 2]] : [[0, 0], [-1, 0], [-1, -1], [0, 2], [-1, 2]]) {
             let found = true;
             for (let x = 0; x <= c.maxX - c.minX; x++) {
                 for (let y = 0; y <= c.maxY - c.minY; y++) {
