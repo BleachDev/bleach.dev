@@ -30,20 +30,6 @@
 </head>
 <body>
 
-<!--div id="menu">
-    <h1>Tetris™<br>Totally Normal Edition</h1>
-
-    <button class="menu-button">Singleplayer</button>
-    <br/>
-    <button class="menu-button" style="color: #999;">Versus <span style="font-size: 12px;">(soon™)</span></button>
-    <br/>
-    <button class="menu-button" style="font-size: 16px;">Leaderboard</button>
-    <div class="hr" style="width: 400px; margin: 10px auto;"></div>
-
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username-join">
-</div-->
-
 <div id="game">
     <div style="display: inline-block; vertical-align: top; margin-top: 75px;">
         <h2 style="margin: 0;">HOLD</h2>
@@ -426,7 +412,7 @@
 
                     clearedLines++;
                     if (clearedLines === 40) {
-                        document.getElementById("toast-text").innerHTML = `<span style="color: #9cff8d;">You cleared 40 lines in ${document.getElementById("timer").innerText}!</span>`;
+                        document.getElementById("play-text").innerHTML = `<span style="color: #9cff8d;">You cleared 40 lines in ${document.getElementById("timer").innerText}!</span>`;
                         document.getElementById("play-button").innerText = "Continue";
                         document.getElementById("play-button").onclick = resume;
                         stop();
