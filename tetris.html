@@ -89,13 +89,11 @@
     <div class="box">
         <h1>Tetris™<br>Totally Normal Edition</h1>
 
-        <button class="menu-button" onclick="
-            document.getElementById('play-toast').style.display = 'flex';
-            document.getElementById('menu-toast').style.display = 'none';">Singleplayer</button>
+        <button class="menu-button" onclick="openToast('play-toast');">Singleplayer</button>
         <br/>
         <button class="menu-button" style="color: #999;">Versus <span style="font-size: 12px;">(soon™)</span></button>
         <br/>
-        <button class="menu-button" style="font-size: 16px;" onclick="document.getElementById('leaderboard-toast').style.display = 'flex';">Leaderboard</button>
+        <button class="menu-button" style="font-size: 16px;" onclick="openToast('leaderboard-toast', false);">Leaderboard</button>
         <div class="hr"></div>
 
         <label for="username">Username</label>
@@ -109,10 +107,8 @@
         <p class="toast-header">Goal: Clear 40 Lines.</p>
         <p id="play-text">You can continue playing after 40 lines<br/>to get a higher "Most Lines" score!</p>
         <button class="menu-button" id="play-button" onclick="start();">Play</button>
-        <button class="half-menu-button" onclick="
-            document.getElementById('play-toast').style.display = 'none';
-            document.getElementById('menu-toast').style.display = 'flex';">Back to Menu</button>
-        <button class="half-menu-button" onclick="document.getElementById('leaderboard-toast').style.display = 'flex';">Leaderboard</button>
+        <button class="half-menu-button" onclick="openToast('menu-toast');">Back to Menu</button>
+        <button class="half-menu-button" onclick="openToast('leaderboard-toast', false);">Leaderboard</button>
     </div>
 </div>
 
@@ -120,7 +116,7 @@
     <div class="box">
         <h1>Leaderboard</h1>
         <div>
-            <button style="margin: 0" onclick="document.getElementById('leaderboard-toast').style.display = 'none';"><</button>
+            <button style="margin: 0" onclick="closeToast('leaderboard-toast');"><</button>
             <button class="leaderboard-button" id="lb-lines" style="text-decoration: underline;"
                     onclick="fetchLeaderboard(`https://api.bleach.dev/tetris/leaderboardlines`);
                         document.getElementById(`lb-lines`).style.textDecoration = `underline`;
@@ -145,6 +141,10 @@
             this.height = array.length / width;
         }
     }
+
+    // Yes, I'm aware these are in fact not toasts, please send further complaints to thisisnotatoast@bleach.dev
+    const TOASTS = [ "menu-toast", "play-toast", "leaderboard-toast"].map(t => document.getElementById(t));
+    const SYNTH = new Tone.FMSynth().toDestination();
 
     const PIECES = [
         new Piece([1, 1, 1, 1], 4), // I
@@ -195,8 +195,6 @@
         }
     }
 
-    const synth = new Tone.FMSynth().toDestination();
-
     const height = 22;
     const width = 10;
     const board = new Array(height * width).fill(0);
@@ -227,13 +225,13 @@
             if (gracePeriod >= 0)
                 gracePeriod = 1;
 
-            synth.triggerAttackRelease("G4", "256n", Tone.now(), 0.3);
+            SYNTH.triggerAttackRelease("G4", "256n", Tone.now(), 0.3);
         } else if (e.key === " ") {
             while (offsetFalling(0, 1)) {}
             gracePeriod = 0;
             tick();
 
-            synth.triggerAttackRelease("D3", "24n", Tone.now(), 0.2);
+            SYNTH.triggerAttackRelease("D3", "24n", Tone.now(), 0.2);
         } else if (e.key === "Shift" || e.key.toLowerCase() === "c") {
             holdPiece();
         }
@@ -251,7 +249,7 @@
 
             if ((((leftDown || rightDown) && offsetFalling(leftDown ? -1 : 1, 0))) || (downDown && offsetFalling(0, 1))) {
                 render();
-                synth.triggerAttackRelease(leftDown || rightDown ? "E#4" : "C#4", "256n", Tone.now(), 0.4);
+                SYNTH.triggerAttackRelease(leftDown || rightDown ? "E#4" : "C#4", "256n", Tone.now(), 0.4);
             }
         }
 
@@ -275,10 +273,8 @@
 
     // Init
     document.addEventListener("keydown", e => {
-        if (e.key === "Escape" && (document.getElementById("leaderboard-toast").style.display === "flex" || document.getElementById("play-toast").style.display === "flex")) {
-            document.getElementById("leaderboard-toast").style.display = "none";
-            document.getElementById("play-toast").style.display = "none";
-            document.getElementById("menu-toast").style.display = "flex";
+        if (e.key === "Escape") {
+            closeToast("leaderboard-toast");
         }
 
         if (e.key === "Enter" && document.getElementById("play-toast").style.display === "flex") {
@@ -306,11 +302,12 @@
 
     fetchLeaderboard("https://api.bleach.dev/tetris/leaderboardlines");
 
-    function formatTime(ms) {
-        const minutes = Math.floor(ms / 1000 / 60);
-        const seconds = Math.floor(ms / 1000) % 60;
-        const millis = Math.floor(ms / 10) % 100;
-        return (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + (millis < 10 ? "0" : "") + millis;
+    function openToast(id, closeOthers = true) {
+        TOASTS.forEach(t => t.style.display = id === t.id ? "flex" : closeOthers ? "none" : t.style.display);
+    }
+
+    function closeToast(id) {
+        TOASTS.find(t => id === t.id).style = "none";
     }
 
     function getElement(x, y) {
@@ -374,7 +371,7 @@
     function stop() {
         document.removeEventListener("keyup", handleKeyUp);
         document.removeEventListener("keydown", handleKeyDown);
-        document.getElementById("play-toast").style.display = "flex";
+        openToast("play-toast");
 
         clearInterval(tickId);
     }
@@ -382,7 +379,7 @@
     function resume() {
         document.addEventListener("keyup", handleKeyUp);
         document.addEventListener("keydown", handleKeyDown);
-        document.getElementById("play-toast").style.display = "none";
+        closeToast("play-toast");
 
         lastTime = performance.now();
         tickId = setInterval(tickInterval, 10);
@@ -574,7 +571,7 @@
 
     function holdPiece() {
         if (!canHold) {
-            synth.triggerAttackRelease("A2", "24n", Tone.now(), 0.2);
+            SYNTH.triggerAttackRelease("A2", "24n", Tone.now(), 0.2);
             return;
         }
 
@@ -594,7 +591,7 @@
 
         holdingPiece = c.piece;
         canHold = false;
-        synth.triggerAttackRelease("C5", "24n", Tone.now(), 0.3);
+        SYNTH.triggerAttackRelease("C5", "24n", Tone.now(), 0.3);
         render();
     }
 
@@ -659,6 +656,13 @@
         const name = document.getElementById("username").value;
         document.cookie = "username=" + name + "; max-age=2592000";
         return name;
+    }
+
+    function formatTime(ms) {
+        const minutes = Math.floor(ms / 1000 / 60);
+        const seconds = Math.floor(ms / 1000) % 60;
+        const millis = Math.floor(ms / 10) % 100;
+        return (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + (millis < 10 ? "0" : "") + millis;
     }
 </script>
 </body>
