@@ -15,11 +15,31 @@
 }
 
 body {
-    background-color: var(--background-color);
+    /*background-color: var(--background-color);*/
+    background-image: url("/static/img/background.png");
+    background-size: 55vmax;
+    image-rendering: pixelated;
+    animation: background 240s cubic-bezier(0.47, 0.25, 0.53, 0.75) infinite;
+
     text-align: center;
     color: var(--text-color);
     scrollbar-color: #60606090 #10101090;
     color-scheme: dark;
+}
+
+@keyframes background {
+    0% {
+        background-position: 0 0;
+    }
+    33% {
+        background-position: 30vmax -15vmax;
+    }
+    66% {
+        background-position: -15vmax -30vmax;
+    }
+    100% {
+        background-position: 0 0;
+    }
 }
 
 h1, h2, h3 {
