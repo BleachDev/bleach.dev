@@ -75,6 +75,7 @@ summary:hover {
     display: inline-block;
     width: 90%;
     background-color: var(--box-color);
+    backdrop-filter: blur(2px);
     border-radius: 10px;
     padding: 7px;
 }
