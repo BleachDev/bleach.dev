@@ -1,7 +1,7 @@
 /* General */
 
 :root {
-    --background-color: #2c2e30;
+    --background-color: #242039;
     --box-color: #0000002a;
 
     --text-color: #e0e0e0;
@@ -15,8 +15,8 @@
 }
 
 body {
-    /*background-color: var(--background-color);*/
-    background-image: url("/static/img/background.png");
+    background-color: var(--background-color);
+    background-image: url("/static/img/background.webp");
     background-size: 55vmax;
     image-rendering: pixelated;
     animation: background 240s cubic-bezier(0.47, 0.25, 0.53, 0.75) infinite;
