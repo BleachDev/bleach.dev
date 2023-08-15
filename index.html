@@ -11,7 +11,7 @@
     <meta property="og:site_name" content="bleach.dev">
     <meta property="og:title" content="Bleach Development">
     <meta property="og:url" content="https://bleach.dev/">
-    <meta property="og:image" content="https://bleach.dev/static/icon.png">
+    <meta property="og:image" content="https://bleach.dev/static/icon.webp">
     <meta property="og:type" content="website">
     <meta property="og:description" content="I'm Bleach and this is my website.">
     <meta name="theme-color" content="#ebafcc">
@@ -33,7 +33,10 @@
         </nav>
 
         <div id="about">
-            <img src="static/img/typing.webp" height="110" alt="[Profile Picture]">
+            <picture>
+                <source type="image/avif" srcset="/static/img/typing.avif">
+                <img src="/static/img/typing.webp" height="110" alt="[Profile Picture]">
+            </picture>
             <!-- About Me -->
             <p>Hi! I'm <span style="color: #ffe0fe;">Bleach</span>, and I'm a self-taught developer/coder<br>
                 that has been writing code as a hobby for over 5 years.</p>
@@ -128,7 +131,7 @@
                 <div style="height: 20px;"></div>
 
                 <div class="box project-box">
-                    <img src="static/icon.png">
+                    <img src="static/icon.webp">
                     <h3>OSM Changeset Visualizer</h3>
                     <p>Modernized and serverless version of <a href="https://osmhv.openstreetmap.de/">osmhv</a><br>for visualizing OpenStreetMap changesets.</p>
                     <div class="links-wide">
@@ -203,7 +206,7 @@
                 <summary class="project-header">Others/Misc</summary>
 
                 <div class="box project-box">
-                    <img src="static/icon.png">
+                    <img src="static/icon.webp">
                     <h3>????</h3>
                     <p style="color: var(--header-color);">more projects coming soon. probably.</p>
                     <div class="links-wide">
@@ -268,7 +271,7 @@
 
     <div class="toast" id="toast-osmcv">
         <div class="box project-box">
-            <img src="static/icon.png">
+            <img src="static/icon.webp">
             <h1>OSM Changeset Visualizer</h1>
             <p>Modernized and serverless version of <a href="https://osmhv.openstreetmap.de/">osmhv</a><br>for visualizing OpenStreetMap changesets.</p>
             <p class="grey-text">Maintained: 2022</p>
