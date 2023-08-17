@@ -37,6 +37,17 @@
 
 /* Link containers */
 
+.link-group {
+    padding: 3px 6px;
+    margin-bottom: 3px;
+    width: initial;
+}
+
+.link-group-text {
+    font-size: 14px;
+    margin: 0;
+}
+
 .links-wide, .links-compact {
     display: inline-block;
 }
