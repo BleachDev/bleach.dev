@@ -33,10 +33,7 @@
         </nav>
 
         <div id="about">
-            <picture>
-                <!-- todo: call steve apple and tell him to fix his browser source type="image/avif" srcset="/static/img/typing.avif"-->
-                <img src="/static/img/typing.webp" height="110" alt="[Profile Picture]">
-            </picture>
+            <img src="/static/img/typing.avif" height="110" alt="[Profile Picture]">
             <!-- About Me -->
             <p>Hi! I'm <span style="color: #ffe0fe;">Bleach</span>, and I'm a self-taught developer/coder<br>
                 that has been writing code as a hobby for over 5 years.</p>
@@ -352,6 +349,13 @@
 
         let currentGreeting = 0;
         let currentTick = 0;
+
+        // Steve apple and Bill microsoft browser no avif :(
+        if (/iPad|iPhone|iPod|Edg/.test(navigator.userAgent)) {
+            for (const i of document.getElementsByTagName("img")) {
+                if (i.src.endsWith(".avif")) i.src = i.src.slice(0, -5) + ".webp";
+            }
+        }
 
         showContainer("about");
 
