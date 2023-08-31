@@ -55,22 +55,26 @@ h1, h2, h3 {
     color: var(--header-color);
 }
 
+h4, h5 {
+    color: var(--header-color);
+}
+
 h3 {
     margin: 17px;
 }
 
-a {
+h4 {
+    margin: 0 0 10px 0;
+}
+
+a, summary {
     cursor: pointer;
     transition-duration: 0.4s;
     color: var(--link-color);
 }
 
-a:hover {
+a:hover, summary:hover {
     color: var(--link-hover-color);
-}
-
-summary:hover {
-    cursor: pointer;
 }
 
 .hr {
@@ -98,7 +102,7 @@ nav {
 nav > a {
     padding-left: 12px;
     padding-right: 12px;
-    font-size: 18px;
+    font-size: 20px;
     color: revert;
 }
 
