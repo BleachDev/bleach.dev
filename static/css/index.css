@@ -80,7 +80,7 @@
 
 /* Cat */
 #cat-button {
-    position: absolute;
+    position: fixed;
     left: 0;
     border-radius: 0 6px 6px 0;
     bottom: 50px;

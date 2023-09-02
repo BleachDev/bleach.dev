@@ -492,7 +492,7 @@
 
             setInterval(() => {
                 if ((goal === 4 || goal === 5) && x !== goalX && y !== goalY) {
-                    const speed = goal === 4 ? 7 : 10;
+                    const speed = goal === 4 ? 10 : 15;
                     x = goalX === x ? x : goalX < x ? Math.max(goalX, x - speed) : Math.min(goalX, x + speed);
                     y = goalY === y ? y : goalY < y ? Math.max(goalY, y - speed) : Math.min(goalY, y + speed);
                     img.style.left = x + "px";
