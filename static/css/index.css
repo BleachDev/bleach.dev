@@ -50,6 +50,7 @@
 
 .links-wide, .links-compact {
     display: inline-block;
+    padding: 0 10px;
 }
 
 .links-wide img, .links-compact img {
