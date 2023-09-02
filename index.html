@@ -259,6 +259,13 @@
         </div>
     </div>
 
+    <button id="cat-button" onclick="cat();"
+            onmouseenter="document.getElementById('cat-text').style.display = 'block'"
+            onmouseleave="document.getElementById('cat-text').style.display = 'none'">
+        <img src="/static/img/cat.webp" alt="Summon Cat" width="48" draggable="false">
+        <p id="cat-text" style="font-size: 12px; margin-top: -7px; color: #ccc; display: none;">Summon Cat</p>
+    </button>
+
     <!-- Project popup boxes -->
 
     <div class="toast" id="toast-tetris">
@@ -433,6 +440,99 @@
             }
 
             e.style.display = "flex";
+        }
+
+        // Funny cat go meow code
+
+        // 2D Pixel Art Cat Sprites by Elthen under CC 4.0
+        // https://elthen.itch.io/2d-pixel-art-cat-sprites
+        // Cat Meow from Wikimedia Commons under CC 3.0
+        // (The original uploader was Dcrosby at English Wikipedia., CC BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>, via Wikimedia Commons)
+        const CAT_FRAMES = [ 4, 4, 4, 4, 8, 8, 4, 6, 7, 8 ];
+        function cat() {
+            const id = Math.floor(Math.random() * 100000000);
+
+            const audio = document.createElement("audio");
+            audio.id = "cat-audio-" + id;
+            audio.volume = 0.2;
+            audio.src = "https://upload.wikimedia.org/wikipedia/commons/6/62/Meow.ogg";
+
+            const img = document.createElement("img");
+            img.id = "cat-" + id;
+            img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="; // 1x1 transparent image
+            img.style.background = "url(/static/img/cats96.webp)";
+            img.style.width = "96px";
+            img.style.height = "96px";
+            img.style.position = "absolute";
+            img.style.userSelect = "none";
+            img.draggable = false;
+            img.style.cursor = "grabbing";
+
+            let x = Math.floor((window.innerWidth - 96) * Math.random());
+            let y = Math.floor((window.innerHeight - 96) * Math.random());
+            img.style.left = x + "px";
+            img.style.top = y + "px";
+
+            document.body.insertBefore(img, document.getElementById("toast-tetris"));
+            audio.play();
+
+            let tick = 0;
+
+            let goal = 0;
+            let finished = 4;
+            let goalX, goalY;
+
+            img.onclick = () => {
+                goal = 5;
+                const goalPos = generateGoal(x, y);
+                goalX = goalPos[0];
+                goalY = goalPos[1];
+                audio.play();
+            }
+
+            setInterval(() => {
+                if ((goal === 4 || goal === 5) && x !== goalX && y !== goalY) {
+                    const speed = goal === 4 ? 7 : 10;
+                    x = goalX === x ? x : goalX < x ? Math.max(goalX, x - speed) : Math.min(goalX, x + speed);
+                    y = goalY === y ? y : goalY < y ? Math.max(goalY, y - speed) : Math.min(goalY, y + speed);
+                    img.style.left = x + "px";
+                    img.style.top = y + "px";
+
+                    if (goalX < x) {
+                        img.style.transform = "scaleX(-1)";
+                    } else if (goalX > x) {
+                        img.style.removeProperty("transform");
+                    }
+
+                    img.style.backgroundPosition = `-${(tick % CAT_FRAMES[goal]) * 96}px -${goal * 96}px`;
+                    finished = tick;
+                } else if (tick <= finished) {
+                    img.style.backgroundPosition = `-${(tick % CAT_FRAMES[goal]) * 96}px -${goal * 96}px`;
+                } else {
+                    goal = Math.floor(Math.random() * 10);
+                    finished = tick + CAT_FRAMES[goal] * Math.floor(Math.random() * 6);
+
+                    if (goal === 4 || goal === 5) {
+                        const goalPos = generateGoal(x, y);
+                        goalX = goalPos[0];
+                        goalY = goalPos[1];
+                    } else if (goal === 2) {
+                        audio.play();
+                    }
+                }
+
+                tick++;
+            }, 200);
+        }
+
+        function generateGoal(x, y) {
+            let goalX = Math.abs(x + Math.floor((Math.random() - 0.5) * 600));
+            let goalY = Math.abs(y + Math.floor((Math.random() - 0.5) * 600));
+            if (goalX >= window.innerWidth - 96)
+                goalX = Math.floor(window.innerWidth - 96 - Math.random() * 200);
+            if (goalY >= window.innerHeight - 96)
+                goalY = Math.floor(window.innerHeight - 96 - Math.random() * 200);
+            return [goalX, goalY];
         }
     </script>
 </body>

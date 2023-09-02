@@ -77,3 +77,19 @@
     width: 100%;
     margin: auto;
 }
+
+/* Cat */
+#cat-button {
+    position: absolute;
+    left: 0;
+    border-radius: 0 6px 6px 0;
+    bottom: 50px;
+    width: 70px;
+    height: 65px;
+    margin: 0;
+    padding: 4px 4px 4px 0;
+}
+
+#cat-button:hover {
+    background-color: #0000005a;
+}
