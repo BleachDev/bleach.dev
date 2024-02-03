@@ -1,11 +1,11 @@
 /* General */
 
 @font-face {
-    font-family: 'Ubuntu Mono';
+    font-family: 'IBM Plex Mono';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(/static/font/ubuntu-mono.woff2) format('woff2');
+    src: url(/static/font/ibm-plex-mono.woff2) format('woff2');
 }
 
 :root {
@@ -19,7 +19,7 @@
 }
 
 * {
-    font-family: "Ubuntu Mono", monospace;
+    font-family: "IBM Plex Mono", monospace;
 }
 
 body {
@@ -48,6 +48,10 @@ body {
     100% {
         background-position: 0 0;
     }
+}
+
+p, span {
+    font-size: 14px;
 }
 
 h1, h2, h3 {
